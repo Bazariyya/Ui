@@ -1,0 +1,43 @@
+.new-advert-component {
+    width: 100%;
+    position: absolute;
+    min-height: 100%;
+    background-color: #FAFAFA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.new-advert-form{
+    width: 76%;
+    height: 81%;
+    position: absolute;
+    min-height: 80%;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.steps-content {
+    width: 100%;
+    margin-top: 5px;
+    height: 85%;
+
+}
+.steps-action{
+    position: absolute;
+    bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+}
+
+.select-category-step-component {
+    min-width: 100%;
+    display: flex;
+    margin-top: 10px;
+    background-color: orange;
+}
+.single-category-list {
+    width: 30%;
+}

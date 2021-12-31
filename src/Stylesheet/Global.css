@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&display=swap');
+
+
+.josefinText{
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.comfortaaText{
+    font-family: 'Comfortaa', cursive;
+
+}
+
+.link{
+    color: black;
+    transition: 0.4s;
+    text-decoration: none;
+}
+.link:hover{
+    color: #555555;
+}
+
+.textDecorationNone {
+    text-decoration: none;
+}
+
+.active{
+    background-color: #4581f6;
+    padding: 10px;
+    border-radius:4px;
+    color: white;
+    transition: 0.4s;
+}
+.active:hover{
+    color: rgb(226, 219, 219);
+}
+
+.GlobalInput{
+    width: 100%;
+}
+.GlobalFormItem {
+    width: 92%;
+    display: flex;
+    justify-content: center;
+}
+
+
+.authComponentTop{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F05454;
+    padding: 5px;
+    border-top-left-radius: 8px;
+    border-bottom-right-radius:8px;
+}
+
+.whiteColor {
+    color:white;
+}
+

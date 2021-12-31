@@ -1,0 +1,32 @@
+.sidebar-component{
+    position: relative;
+    top: 60px;
+    left: 0;
+    width: 260px;
+    height: 100%;
+    background-color: #FAFAFA;
+}
+
+
+.responsive-sidebar-area{
+    position: absolute;
+    left: 0px;
+    top:5px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.normal-menu-area{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+@media only screen and (max-width: 600px) {
+    .sidebar-component{
+        width: 50px;
+    }
+}

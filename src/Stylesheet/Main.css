@@ -1,0 +1,18 @@
+.main-component{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    width: calc(100% - 260px);
+    top: 60px;
+    left: 260px;
+}
+
+.component-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    padding: 10px 20px;
+}
