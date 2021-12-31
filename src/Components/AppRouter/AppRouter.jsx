@@ -22,12 +22,12 @@ function AppRouter() {
     {
       id:2,
       path:'/login',
-      element:<Login />
+      element:<Login service={authService} />
     },
     {
       id:3,
       path:'/register',
-      element:<Register/>
+      element:<Register service={authService}/>
     },
     {
       id:4,

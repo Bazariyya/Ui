@@ -28,9 +28,9 @@ function App(props) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-      const category1 = new Category(1, "Büyükbaş", true);
+      const category1 = new Category(1, "Büyükbaş", false);
       const category2 = new Category(2, "Küçükbaş", false);
-      const subCategory1 = new SubCategory(1, "Deve", false, 1);
+      const subCategory1 = new SubCategory(1, "Deve", true, 1);
       const subCategory2 = new SubCategory(2, "Keçi", true, 2);
 
       dispatch(SuccessSaveCategories(category1));
@@ -62,6 +62,7 @@ function App(props) {
     };
   }
   onResizeHandle();
+  
   useEffect(() => {
     onResizeHandle();
   }, [window.innerWidth]);
