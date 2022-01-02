@@ -6,6 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 70px;
 }
 .new-advert-form{
     width: 76%;
@@ -57,13 +58,14 @@
 }
 .loading-categories small {
     font-size: 12px;
-    margin-top: 5px;
 }
 .advert-detail-component {
-    padding-top: 40px;
+    margin-top: 40px;
     width: 100%;
+    min-height: 80%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .advert-detail-form{
     width: 65%;
@@ -71,4 +73,18 @@
 
 .advert-adress-detail-form{
     width: 65%;
+}
+
+.publishing-component{
+    width: 100%;
+    padding-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+.publishing-form{
+    width: 65%;
+
 }

@@ -1,6 +1,7 @@
 import { Form, Select } from 'antd'
 import React, { useState } from 'react'
 import { rule, getAllCities, getAllCounty } from './../../Other/AdvertSettings';
+import { Input } from 'antd';
 const { Option } = Select;
 function AdvertAdressDetail({ handle }) {
 
@@ -42,6 +43,10 @@ function AdvertAdressDetail({ handle }) {
                             ))
                         }
                     </Select>
+                </Form.Item>
+
+                <Form.Item name = "adresTanimi" label = "Adres Tanımı" required rules={[rule,{min:50,message:"Minimum 50 karakter ile adresinizi tanımlayın"}]}>
+                    <Input.TextArea minLength={50}></Input.TextArea>
                 </Form.Item>
             </div>
         </div>

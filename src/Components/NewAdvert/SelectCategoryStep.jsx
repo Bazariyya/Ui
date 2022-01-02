@@ -1,22 +1,18 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
 import { useSelector } from 'react-redux';
-import CategoryList from './CategoryList';
-import { useEffect } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
-import { Cascader, message, Spin } from 'antd';
+import { Cascader, Form, message, Spin } from 'antd';
 import { useDispatch } from 'react-redux';
 import { FailedSaveCategories, StartSaveCategories } from '../../Redux/actions/actions';
-import { SaveSelectedCategory } from './../../Redux/actions/actions';
+import { rule } from './../../Other/AdvertSettings';
 
-function SelectCategoryStep({handle}) {
+function SelectCategoryStep({ handle }) {
 
   const categories = useSelector(state => state.categories);
   const categoriesData = categories.data;
   const subCategories = useSelector(state => state.subCategories);
   const subCategoriesData = subCategories.data;
   const [categoryLoading, setCategoryLoading] = useState(true);
-  const selectedCategoryInRedux = categories.selectedCategory;
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   const dispatch = useDispatch();
 
@@ -59,9 +55,11 @@ function SelectCategoryStep({handle}) {
   else {
     return (
       <div className="select-category-step-component">
-        <div id="single-category-list">
-          <Cascader options={options} loadData={loadData} onChange={onChange} changeOnSelect size="large" />
-        </div>
+        <Form.Item label="İlan Kategoriesi" required rules={[rule]}>
+          <div id="single-category-list">
+            <Cascader options={options} loadData={loadData} onChange={onChange} changeOnSelect size="large" />
+          </div>
+        </Form.Item>
       </div>
     );
   }
