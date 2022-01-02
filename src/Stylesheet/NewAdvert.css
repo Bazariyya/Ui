@@ -9,7 +9,6 @@
 }
 .new-advert-form{
     width: 76%;
-    height: 81%;
     position: absolute;
     min-height: 80%;
     background-color: white;
@@ -21,12 +20,13 @@
 .steps-content {
     width: 100%;
     margin-top: 5px;
-    height: 85%;
+    min-height: 85%;
+
 
 }
 .steps-action{
     position: absolute;
-    bottom: 15px;
+    bottom: 10px;
     display: flex;
     justify-content: space-between;
     width: 95%;
@@ -34,7 +34,7 @@
 
 .select-category-step-component {
     min-width: 100%;
-    height: 70%;
+    min-height: 70%;
     display: flex;
     margin-top: 10px;
     justify-content: center;
@@ -58,4 +58,17 @@
 .loading-categories small {
     font-size: 12px;
     margin-top: 5px;
+}
+.advert-detail-component {
+    padding-top: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.advert-detail-form{
+    width: 65%;
+}
+
+.advert-adress-detail-form{
+    width: 65%;
 }

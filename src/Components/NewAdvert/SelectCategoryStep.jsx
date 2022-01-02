@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { FailedSaveCategories, StartSaveCategories } from '../../Redux/actions/actions';
 import { SaveSelectedCategory } from './../../Redux/actions/actions';
 
-function SelectCategoryStep() {
+function SelectCategoryStep({handle}) {
 
   const categories = useSelector(state => state.categories);
   const categoriesData = categories.data;
@@ -19,6 +19,7 @@ function SelectCategoryStep() {
   const selectedCategoryInRedux = categories.selectedCategory;
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
   const dispatch = useDispatch();
+
 
   dispatch(StartSaveCategories());
   setTimeout(() => { // Bu kısım setTimeout değil canlı data geldiğinde sonlanack!
@@ -30,6 +31,7 @@ function SelectCategoryStep() {
 
   const onChange = (value, selectedOptions) => {
     console.log(value, selectedOptions);
+    handle();
     message.success("Seçildi")
   };
 
