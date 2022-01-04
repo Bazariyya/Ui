@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AuthService } from "../../Service/AuthService";
+import AdvertDetailPage from "../AdvertDetailPage/AdvertDetailPage";
 import Main from "../Main/Main";
 import NewAdvert from "../NewAdvert/NewAdvert";
 import NotFound from "../NotFound/NotFound";
@@ -44,6 +45,11 @@ function AppRouter() {
       path:'*',
       element:<NotFound />,
     },
+    {
+      id:7,
+      path:'/advertDetail',
+      element:<AdvertDetailPage />
+    }
   ]
 
   return (

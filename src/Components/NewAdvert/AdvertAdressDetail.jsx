@@ -48,6 +48,18 @@ function AdvertAdressDetail({ handle }) {
                 <Form.Item name = "adresTanimi" label = "Adres Tanımı" required rules={[rule,{min:50,message:"Minimum 50 karakter ile adresinizi tanımlayın"}]}>
                     <Input.TextArea minLength={50}></Input.TextArea>
                 </Form.Item>
+
+                <Form.Item name = "adSoyad" label = "Ad Soyad" required rules={[rule]}>
+                    <Input type={'text'}></Input>
+                </Form.Item>
+
+                <Form.Item name = "telefon" label = "Telefon Numarası" required rules={[rule]}>
+                    <Input type={'tel'}></Input>
+                </Form.Item>
+
+                <Form.Item name = "eposta" label = "E-Posta Adresi">
+                    <Input type={'email'}></Input>
+                </Form.Item>
             </div>
         </div>
     )
