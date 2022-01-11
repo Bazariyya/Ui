@@ -28,7 +28,6 @@ function SelectCategoryStep({ handle }) {
   const onChange = (value, selectedOptions) => {
     console.log(value, selectedOptions);
     handle();
-    message.success("Seçildi")
   };
 
   const loadData = selectedOptions => {
@@ -44,15 +43,6 @@ function SelectCategoryStep({ handle }) {
 
 
 
-  if (categoryLoading === true) {
-    return (
-      <div className='loading-categories'>
-        <Spin size='large' indicator={antIcon} />
-        <small>Kategoriler yükleniyor...</small>
-      </div>
-    )
-  }
-  else {
     return (
       <div className="select-category-step-component">
         <Form.Item label="İlan Kategoriesi" required rules={[rule]}>
@@ -62,8 +52,6 @@ function SelectCategoryStep({ handle }) {
         </Form.Item>
       </div>
     );
-  }
-
 
 }
 

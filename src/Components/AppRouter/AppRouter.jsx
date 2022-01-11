@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AuthService } from "../../Service/AuthService";
 import AdvertDetailPage from "../AdvertDetailPage/AdvertDetailPage";
@@ -6,19 +6,43 @@ import Main from "../Main/Main";
 import NewAdvert from "../NewAdvert/NewAdvert";
 import NotFound from "../NotFound/NotFound";
 import ResetPassword from "../ResetPassword/ResetPassword";
-import Sidebar from "../Sidebar/Sidebar";
 import Login from "./../Login/Login";
 import Register from "./../Register/Register";
-import { MainService } from './../../Service/MainService';
-
+import { getAllCategories } from '../../Service/CategoryService';
+import { Category } from '../../Entities/Category';
+import { useDispatch } from 'react-redux';
+import { SuccessSaveCategories } from './../../Redux/actions/actions';
+import { CategoryService } from './../../Service/CategoryService';
 function AppRouter() {
   const authService = new AuthService();
+  const dispatch = useDispatch();
+  const categoryService = new CategoryService();
+  const [categories,setCategories] = useState([])
 
+  useEffect(() => {
+    const categoryArray = []
+    categoryService.getAllCategories().then(response => {
+      response.data.value.forEach(e => {
+        const category = new Category(e.id,e.categoryId,e.name,e.code);
+        categoryArray.push(category);
+      })
+      setCategories(categoryArray)
+    }).catch(err => {
+      console.log(err)
+    })
+  },[])
+
+  useEffect(() => {
+    dispatch(SuccessSaveCategories(categories));
+  },[categories])
+
+
+  
   const routes = [
     {
       id:1,
       path:'/',
-      element:<Main />,
+      element:<Main categories = {categories} />,
     },
     {
       id:2,

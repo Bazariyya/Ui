@@ -10,24 +10,17 @@ import {
   ResponsiveModeOn,
   SetRouteSuccess,
   StartSaveCategories,
+  SuccessSaveCategories
 } from "./Redux/actions/actions";
 import { getScreenWidthAndHeight } from "./Other/ResponsiveControl";
 import "./Stylesheet/App.css";
-
-
-
 function App(props) {
   const route = useSelector((state) => state.route);
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.data)
   const responsive = useSelector((state) => state.responsive);
   const location = useLocation();
   const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-
-  
-
   
   useEffect(() => {
     localStorage.setItem("route", location.pathname);

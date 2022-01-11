@@ -6,57 +6,45 @@ import { Drawer } from "antd";
 import HamburgerMenuSVG from "../../assets/img/hamburger-menu.png";
 import { Collapse } from 'antd';
 import { useDispatch, useSelector } from "react-redux";
-import { getAllCategories, getAllSubCategories } from './../../Service/CategoryService';
-import { FailedSaveCategories, FailedSaveSubCategories, StartSaveCategories, StartSaveSubCategories } from "../../Redux/actions/actions";
-import { SuccessSaveCategories, SuccessSaveSubCategories } from './../../Redux/actions/actions';
-import { Category } from './../../Entities/Category';
+import { getAllSubCategories } from './../../Service/CategoryService';
+import { FailedSaveSubCategories, StartSaveSubCategories } from "../../Redux/actions/actions";
+import { SuccessSaveSubCategories } from './../../Redux/actions/actions';
 import { SubCategory } from './../../Entities/Subcategory';
+import { CategoryService } from "../../Service/CategoryService";
+
 const { SubMenu } = Menu;
 const { Panel } = Collapse;
 
-const Sidebar = () => {
+const Sidebar = ({categories}) => {
   const [openKeys, setOpenKeys] = React.useState([]);
   const [isResponsive, setIsResponsive] = useState(false);
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const responsive = useSelector((state) => state.responsive);
-  const [categories,setCategories] = useState([]);
-  const [subCategories,setSubCategories] = useState([]);
   const [rootSubmenuKeys,setRootSubMenuKeys] = useState([]) 
   const dispatch = useDispatch();
+  const [subCategories,setSubCategories] = useState([]);
+  const categoryService = new CategoryService();
+  
 
   useEffect(() => {
     setIsResponsive(responsive);
   }, [responsive]);
 
   useEffect(() => {
-
-    const categoryArray = []
-    dispatch(StartSaveCategories());
-    getAllCategories().then(response => {
-      response.data.value.forEach(e => {
-        const category = new Category(e.id,e.categoryId,e.name,e.code);
-        categoryArray.push(category);
-      })
-      setCategories(response.data.value);
-      setRootSubMenuKeys(response.data.value.map(r => r.id.toString()))
-    }).catch(err => {
-      console.log(err)
-      dispatch(FailedSaveCategories())
-    }).finally(() => {
-      dispatch(SuccessSaveCategories(categoryArray));
-    })
-  },[])
+    setRootSubMenuKeys(categories.map(c => c.id.toString()))
+  },[categories])
 
   useEffect(() => {
     const subCategoryArray = [];
     dispatch(StartSaveSubCategories())
     openKeys.forEach(id => {
-      getAllSubCategories(parseInt(id)).then(res => {
+      categoryService.getAllSubCategories(parseInt(id)).then(res => {
         res.value.forEach(e => {
-          const subCategory = new SubCategory(e.id,e.name,e.categoryId,e.code);
+          const subCategory = new SubCategory(e.id,e.categoryId,e.name,e.code);
           subCategoryArray.push(subCategory)
         })
-        setSubCategories(res.value)
+        setSubCategories(subCategoryArray)
+
       }).catch(err => {
         console.log(err)
         dispatch(FailedSaveSubCategories())
@@ -105,7 +93,7 @@ const Sidebar = () => {
             >
               
               {
-                subCategories.filter(sub => sub.categoryId === category.id).map(subCategory => (
+                subCategories?.filter(sub => sub.categoryId === category.id).map(subCategory => (
                   <Menu.Item key={subCategory.id}>{subCategory.name}</Menu.Item>
                 ))
               }

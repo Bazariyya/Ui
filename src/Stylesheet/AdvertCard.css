@@ -1,22 +1,35 @@
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     width: 200px;
-    height: 200px;
+    height: 260px;
     text-align: center;
     font-family: arial;
     margin: 20px;
     margin-top: 40px;
     position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
   }
 .advert-title{
     font-size: 18px;
-    text-align: left;
+    text-align: center;
     margin: 10px;
-}
+  }
   
-  .price {
+  .pricetext {
     color: grey;
     font-size: 22px;
+  }
+
+  .description{
+    width: 90%;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 40px;
+
   }
   
   .card .advertDetailButton {
