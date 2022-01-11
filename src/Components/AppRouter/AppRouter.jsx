@@ -9,10 +9,10 @@ import ResetPassword from "../ResetPassword/ResetPassword";
 import Sidebar from "../Sidebar/Sidebar";
 import Login from "./../Login/Login";
 import Register from "./../Register/Register";
+import { MainService } from './../../Service/MainService';
 
 function AppRouter() {
   const authService = new AuthService();
-
 
   const routes = [
     {

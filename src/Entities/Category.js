@@ -1,10 +1,8 @@
-
-
 export class Category{
-    constructor(id,name,isTopCategory) {
+    constructor(id,categoryId,name,code) {
         this.id = id;
-        this.label = name;
-        this.isLeaf = isTopCategory;
-        this.value = name;
+        this.categoryId = categoryId;
+        this.name = name;
+        this.code = code;
     }
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../Stylesheet/Navbar.css";
 import { Link, useLocation } from "react-router-dom";
 import { getScreenWidthAndHeight } from "../../Other/ResponsiveControl";
-import { Drawer } from "antd";
+import { Button, Drawer } from "antd";
 import HamburgerMenu from "../../assets/img/hamburger-menu.png";
 import LogoAndName from "../LogoAndName/LogoAndName";
 import { useSelector } from "react-redux";
@@ -29,27 +29,36 @@ function Navbar() {
     setMenuVisible(false);
   }, [location.pathname]);
 
-  const RenderHamburgerMenu = () => {
-    return (
-      <Drawer
-        title="Menü"
-        placement="right"
-        onClose={onClose}
-        visible={menuVisible}
-      >
-        <NormalMenu />
-      </Drawer>
-    );
-  };
+  function ResponsiveMenu() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+      x.className += " responsive";
+    } else {
+      x.className = "topnav";
+    }
+  }
+
+  useEffect(() => {
+    ResponsiveMenu()
+  }, [])
 
   return (
-    <div className="navbar-component">
-      <div className="navbar-left">
-        <LogoAndName />
+    <div className="topnav" id="myTopnav">
+      <div className="left">
+        <Link to="/login">Oturum Aç</Link>
+        <Link className="active" to="/register">Kayıt Ol</Link>
       </div>
-      <div className="navbar-right">
-        {isResponsive ? null : <NormalMenu />}
+
+      <div className="right">
+        <Link className="textDecorationNone" to="/new-advert">
+          <Button type="primary">
+            Yeni İlan Oluştur
+          </Button>
+        </Link>
       </div>
+      <a className="icon" onClick={ResponsiveMenu}>
+        <i className="fa fa-bars"></i>
+      </a>
     </div>
   );
 }

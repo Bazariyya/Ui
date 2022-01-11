@@ -6,7 +6,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 70px;
 }
 .new-advert-form{
     width: 76%;
@@ -82,9 +81,19 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 100%;
+    position: relative;
+
 
 }
 .publishing-form{
     width: 65%;
+    
+}
 
+.before-publishing-component{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

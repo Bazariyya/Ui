@@ -11,7 +11,7 @@ export const SubCategoryReducer = (state = initialState.subCategories,action) =>
             return state;
         case SUCCESS_SAVE_SUBCATEGORIES_ASTATE:
             state.loading = false;
-            state.data.push(action.payload);
+            state.data = action.payload
             return state;
         case FAILED_SAVE_SUBCATEGORIES_ASTATE:
             state.loading = false;

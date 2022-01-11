@@ -24,6 +24,6 @@ export const initialState = {
         loading:false,
         errorMessage:'',
         selectedSubCategory:null
-    }
+    },
     
 }

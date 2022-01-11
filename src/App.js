@@ -5,39 +5,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  FailedSaveCategories,
   ResponsiveModeOff,
   ResponsiveModeOn,
   SetRouteSuccess,
+  StartSaveCategories,
 } from "./Redux/actions/actions";
 import { getScreenWidthAndHeight } from "./Other/ResponsiveControl";
 import "./Stylesheet/App.css";
-import { Category } from "./Entities/Category";
-import { SubCategory } from "./Entities/Subcategory";
-import {
-  SaveSelectedCategory,
-  SuccessSaveCategories,
-  SuccessSaveSubCategories,
-} from "./Redux/actions/actions"
+
+
 
 function App(props) {
   const route = useSelector((state) => state.route);
   const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories.data)
   const responsive = useSelector((state) => state.responsive);
   const location = useLocation();
   const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-      const category1 = new Category(1, "Büyükbaş", false);
-      const category2 = new Category(2, "Küçükbaş", false);
-      const subCategory1 = new SubCategory(1, "Deve", true, 1);
-      const subCategory2 = new SubCategory(2, "Keçi", true, 2);
 
-      dispatch(SuccessSaveCategories(category1));
-      dispatch(SuccessSaveCategories(category2));
-      dispatch(SuccessSaveSubCategories(subCategory1));
-      dispatch(SuccessSaveSubCategories(subCategory2));
-  }, []);
+  
+
+  
   useEffect(() => {
     localStorage.setItem("route", location.pathname);
     dispatch(SetRouteSuccess(location.pathname));
@@ -62,7 +53,7 @@ function App(props) {
     };
   }
   onResizeHandle();
-  
+
   useEffect(() => {
     onResizeHandle();
   }, [window.innerWidth]);

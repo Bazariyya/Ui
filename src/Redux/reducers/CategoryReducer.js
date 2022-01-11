@@ -11,15 +11,11 @@ export const CategoryReducer = (state = initialState.categories,action) => {
 
         case SUCCESS_SAVE_CATEGORIES_ASTATE:
             state.loading = false;
-            state.data.push(action.payload);
+            state.data = action.payload;
             return state;
         case FAILED_SAVE_CATEGORIES_ASTATE:
             state.errorMessage = "Kategori verisi alınırken bir hata oluştu.";
             state.loading = false;
-            return state;
-
-        case SAVE_SELECTED_CATEGORIES:
-            state.selectedCategory = action.payload;
             return state;
 
         default:
