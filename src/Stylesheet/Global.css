@@ -59,3 +59,25 @@
     color:white;
 }
 
+.globalbutton{
+    width: 80px;
+    font-size: 13px;
+    border-radius: 2px;
+    border: none;
+    outline: none;
+    background-color: #212121;
+    color: white;
+    cursor: pointer;
+}
+
+.mt-10{
+    padding-top: 10px;
+}
+
+.blueBacklink{
+    color: white;
+}
+.blueBacklink:hover{
+    color: white;
+}
+    
