@@ -12,7 +12,7 @@ function Sorting({handle}) {
       style={{ width: 150 }}
       onChange={handleChange}
     >
-      <Option value="sirala">Sırala</Option>
+      <Option value="sirala">Normal Sıralama</Option>
       <Option value="artanFiyat">Artan Fiyat</Option>
       <Option value="azalanFiyat">Azalan Fiyat</Option>
     </Select>
