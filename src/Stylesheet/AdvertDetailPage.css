@@ -12,7 +12,6 @@
 .product-detail-area{
   width: 85%;
   height: 550px;
-  border: 1px solid gray;
   display: flex;
   flex-direction: column;
 }
@@ -83,4 +82,67 @@
 #next{
   right: 0px;
   top: 45%;
+}
+
+.product-price-card{
+  width: 55%;
+  min-height: 400px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.product-price-information {
+  background-color: #F2F2F2;
+  width: 100%;
+  border-radius: 12px;
+  height: 50%;
+  padding: 10px;
+}
+.product-seller-information {
+  border: 1px solid lightgray;
+  width: 100%;
+  height: 50%;
+  margin-top: 20px;
+}
+.product-title-information{
+  color: #6C6666;
+  font-size: 28px;
+  padding-left: 20px;
+}
+.product-price-text{
+  color: #C65431;
+  padding-left: 20px;
+}
+
+.advert-actions {
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: 20px;
+  left: 20px;
+
+}
+.teklifButton{
+  position: relative;
+}
+
+@media only screen and (max-width: 600px) {
+  .images-slideshow{
+    width: 100%;
+  }
+  .images-and-price-card{
+    margin: 0px;
+    width: 100%;
+    flex-direction: column;
+
+
+  }
+  .product-price-card{
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 0px;
+    height: 600px;
+
+
+  }
 }

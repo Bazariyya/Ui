@@ -17,7 +17,7 @@ function AdvertCard({ product }) {
         </Link>
 
         <button className="advert-detail-button globalbutton ">
-          <Link className="whiteColor blueBacklink" to="/advertDetail">
+          <Link className="whiteColor blueBacklink" to={`/advertDetail/${product.id}`}>
             <span className="josefinText mt-10">İlanı İncele</span>
           </Link>
         </button>

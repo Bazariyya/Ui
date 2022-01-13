@@ -71,7 +71,7 @@ function AppRouter() {
     },
     {
       id:7,
-      path:'/advertDetail',
+      path:'/advertDetail/:productId',
       element:<AdvertDetailPage />
     }
   ]

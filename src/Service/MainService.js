@@ -9,7 +9,7 @@ export class MainService {
     }
 
     postRequest(url, ...parameter) {
-        return axios.post(url,...parameter);
+        return axios.post(url,parameter[0],parameter[1]);
     }
 
 
