@@ -1,6 +1,5 @@
 .advert-detail-page-component {
   width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
   position: absolute;
@@ -43,11 +42,14 @@
 
 }
 .all-images-slide {
+
+  position: relative;
+  width: 100%;
   height: 15%;
   display: flex;
   justify-content: center;
   margin-top: 10px;
-
+  overflow-x: scroll;
 }
 
 .all-images-slide-image{
@@ -99,7 +101,6 @@
   padding: 10px;
 }
 .product-seller-information {
-  border: 1px solid lightgray;
   width: 100%;
   height: 50%;
   margin-top: 20px;
@@ -126,6 +127,56 @@
   position: relative;
 }
 
+
+.product-seller-information-title{
+  color: #6C6666;
+  font-size: 18px;
+  margin: 10px;
+  padding-left: 20px;
+}
+.product-seller-information-area{
+  padding-left: 30px;
+}
+
+.seller-section{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.sendMailButton{
+  background-color: #C65431;
+  border-color: #C65431;
+  transition: 0.4s;
+  margin-bottom: 10px;
+}
+.sendMailButton:hover{
+  background-color: #ce6d4f;
+  border-color: #C65431;
+
+}
+.sendMailButton:focus{
+  background-color: #ce6d4f;
+  border-color: #C65431;
+}
+.seller-actions{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.properties-area{
+  width: 80%;
+  position: relative;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.backgroundOrange{
+  background-color: #ce6d4f;
+}
+
 @media only screen and (max-width: 600px) {
   .images-slideshow{
     width: 100%;
@@ -144,5 +195,13 @@
     height: 600px;
 
 
+  }
+
+  .seller-section{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .properties-area{
+    margin-top: 500px;
   }
 }

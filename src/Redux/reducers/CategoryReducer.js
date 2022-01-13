@@ -1,5 +1,5 @@
 
-import { FAILED_SAVE_CATEGORIES_ASTATE, SAVE_SELECTED_CATEGORIES, START_SAVE_CATEGORIES_ASTATE, SUCCESS_SAVE_CATEGORIES_ASTATE } from '../actions/actionTypes'
+import { FAILED_SAVE_CATEGORIES_ASTATE, FINISH_SAVE_CATEGORIES_ASTATE,SAVE_SELECTED_CATEGORIES, START_SAVE_CATEGORIES_ASTATE, SUCCESS_SAVE_CATEGORIES_ASTATE } from '../actions/actionTypes'
 import {initialState} from './initalState'
 export const CategoryReducer = (state = initialState.categories,action) => {
 
@@ -12,6 +12,10 @@ export const CategoryReducer = (state = initialState.categories,action) => {
         case SUCCESS_SAVE_CATEGORIES_ASTATE:
             state.loading = false;
             state.data = action.payload;
+            return state;
+        
+        case FINISH_SAVE_CATEGORIES_ASTATE:
+            state.loading=false;
             return state;
         case FAILED_SAVE_CATEGORIES_ASTATE:
             state.errorMessage = "Kategori verisi alınırken bir hata oluştu.";

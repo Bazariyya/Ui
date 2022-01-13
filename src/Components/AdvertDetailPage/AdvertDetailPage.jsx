@@ -1,50 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../../Stylesheet/AdvertDetailPage.css";
-import { Alert, PageHeader, Button, Divider } from "antd";
-import { RightOutlined, LeftOutlined, BookOutlined, MoneyCollectOutlined } from "@ant-design/icons";
-import { useParams } from "react-router-dom";
+import { Alert, PageHeader, Button, Divider, Descriptions } from "antd";
+import { RightOutlined, LeftOutlined, BookOutlined, MailOutlined, MoneyCollectOutlined } from "@ant-design/icons";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { ProductService } from "../../Service/ProductService";
-import {Product} from '../../Entities/Product'
+import { Product } from '../../Entities/Product'
 
 function AdvertDetailPage() {
   const [slideCount, setSlideCount] = useState(0);
   const [productImages, setProductImages] = useState([]);
-  const [product,setProduct] = useState(null);
+  const [product, setProduct] = useState(null);
   const productService = new ProductService();
-  const image2Url =
-    "https://media.sandhills.com/img.axd?id=7233804621&wid=7063344741&rwl=False&p=&ext=&w=614&h=460&t=&lp=&c=True&wt=False&sz=Max&rt=0&checksum=W%2bYVMDYTdKPRd2rFB2ipzmmuFYS7l8qpyO2wVLsbBCE%3d";
-  const imageUrl =
-    "https://media.sandhills.com/img.axd?id=7233809721&wid=7063344741&rwl=False&p=&ext=&w=614&h=460&t=&lp=&c=True&wt=False&sz=Max&rt=0&checksum=TKPx33%2fjJ7s%2bnXYp0mYQRuwfBsHNxYdCCq2DTIDdin4%3d";
-  const imageUrl3 =
-    "https://media.sandhills.com/img.axd?id=7233789389&wid=7063344741&rwl=False&p=&ext=&w=150&h=112&t=&lp=&c=True&wt=False&sz=Max&rt=0&checksum=%2bkwuUtOIHHBgcbDaBvkprdUOe8bqip0aZbd1P3tlOcU%3d";
-  const imageUrl4 =
-    "https://media.sandhills.com/img.axd?id=7233819727&wid=7063344741&rwl=False&p=&ext=&w=614&h=460&t=&lp=&c=True&wt=False&sz=Max&rt=0&checksum=RHiUL1CeACIN0GZmiZQ04mzCzZV%2b%2bv3rvZUKpd95oHs%3d";
-  const imageUrl5 =
-    "https://media.sandhills.com/img.axd?id=7233775557&wid=7063344741&rwl=False&p=&ext=&w=614&h=460&t=&lp=&c=True&wt=False&sz=Max&rt=0&checksum=iN2SxCrAyFfjXRmYl3Uq78oEGBxUEMrgjH%2bWNAsagCU%3d";
-  const imageUrl6 =
-    "https://media.sandhills.com/img.axd?id=7233821339&wid=7063344741&rwl=False&p=&ext=&w=614&h=460&t=&lp=&c=True&wt=False&sz=Max&rt=0&checksum=OV8EDjEEqKQMs4rvbVB6EZ7c5ZC4od0%2fiJIdByV%2fym0%3d";
-  const imageUrl7 =
-    "https://media.sandhills.com/img.axd?id=7233640825&wid=7063344741&rwl=False&p=&ext=&w=614&h=460&t=&lp=&c=True&wt=False&sz=Max&rt=0&checksum=N1q%2bD%2bc9ahkKEzCoW6my%2bP7%2b1zLixFNZJGZD4hxwa%2bM%3d";
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const imageArray = [
-      imageUrl,
-      image2Url,
-      imageUrl3,
-      imageUrl4,
-      imageUrl5,
-      imageUrl6,
-      imageUrl7,
-      imageUrl,
-      image2Url,
-      imageUrl3,
-      imageUrl4,
-      imageUrl5,
-      imageUrl6,
-      imageUrl7,
-    ];
-    setProductImages(imageArray);
-  }, []);
+
 
   const onHandleNext = () => {
     setSlideCount(slideCount + 1);
@@ -72,22 +41,24 @@ function AdvertDetailPage() {
 
   useEffect(() => {
     productService.getProductImages(productId).then(res => {
-      console.log(res)
+      setProductImages(res.value);
     }).catch(err => {
       console.log(err);
     })
-  },[])
+  }, [])
 
   useEffect(() => {
     productService.getSingleProduct(productId).then(res => {
-      const {value} = res;
-      const responseProduct = new Product({...value});
+      const { value } = res;
+      if(value === null || value === undefined) {
+        navigate("/")
+      }
+      const responseProduct = new Product({ ...value });
       setProduct(responseProduct)
     }).catch(err => {
       console.log(err)
     })
-  },[])
-
+  }, [])
 
   return (
     <div className="advert-detail-page-component">
@@ -135,7 +106,8 @@ function AdvertDetailPage() {
                 >
                   <img
                     draggable="false"
-                    src={p}
+                    alt={`${p.productId.toString()}_${p.id.toString()}.${p.filecExtension}`}
+                    src={`${p.productId.toString()}_${p.id.toString()}.${p.filecExtension}`}
                     onClick={() => {
                       onHandleSetSlideCount(index);
                     }}
@@ -161,17 +133,74 @@ function AdvertDetailPage() {
                     Teklif Yap
                   </Button>
                 </div>
-                <Divider type="vertical"/> 
+                <Divider type="vertical" />
                 <div>
                   <Button icon={<BookOutlined />}>Kaydet</Button>
                 </div>
               </div>
             </div>
-            <div className="product-seller-information"></div>
+            <div className="product-seller-information">
+              <h4 className="product-seller-information-title">İlan Sahibi Bilgileri</h4>
+              <div className="seller-section">
+                <div className="product-seller-information-area">
+
+                  <div className="seller-name-surname">
+                    <p className="seller-name-surname-text">
+                      <b>Ad-Soyad:</b> Yusuf Tekin
+                    </p>
+                  </div>
+                  <div className="seller-phone">
+                    <p className="seller-phone"><b>Telefon:</b> +123456789</p>
+                  </div>
+                  <div className="seller-phone">
+                    <p className="seller-phone"><b>Mail:</b> ilansahibi@eposta.com</p>
+                  </div>
+                  <div className="seller-adress">
+                    <p className="seller-adress-city">
+                      <b>İl:</b> Kırşehir
+                    </p>
+                    <p className="seller-adress-distict">
+                      <b>İlçe:</b> Merkez
+                    </p>
+                    <p className="seller-open-adress">
+                      <b>Adres Tanımı:</b> Bilmem neresi...
+                    </p>
+                  </div>
+                </div>
+                <div className="seller-actions">
+                  <Button type="primary" icon={<MailOutlined />} className="sendMailButton">E-Posta Gönder</Button>
+                  <Button>Diğer İlanları</Button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      {/* <div className="properties-area"></div> */}
+      <div className="properties-area">
+       <Divider type="horizontal">İlan Detayları</Divider>
+       <br />
+        <Descriptions
+          bordered
+          column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+        >
+          <Descriptions.Item label="Product">Cloud Database</Descriptions.Item>
+          <br/>
+          <br/>
+          <Descriptions.Item label="Billing">Prepaid</Descriptions.Item>
+          <br/>
+          <br/>
+          <Descriptions.Item label="time">18:00:00</Descriptions.Item>
+          <br/>
+          <br/>
+          <Descriptions.Item label="Amount">$80.00</Descriptions.Item>
+          <br/>
+          <br/>
+          <Descriptions.Item label="Discount">$20.00</Descriptions.Item>
+          <br/>
+          <br/>
+          <Descriptions.Item label="Official">$60.00</Descriptions.Item>
+        </Descriptions>
+      </div>
     </div>
   );
 }

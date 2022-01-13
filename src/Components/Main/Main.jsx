@@ -3,12 +3,15 @@ import "../../Stylesheet/Main.css";
 import AdvertCard from "../AdvertDetailPage/AdvertCard";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ProductService } from "../../Service/ProductService";
 import { Alert, Button, Divider, Input, message, Select } from "antd";
 import { Product } from "./../../Entities/Product";
 import { Link } from "react-router-dom";
 import Sorting from "../Sorting/Sorting";
+import { FinishSaveCategories, StartSaveCategories, StartSaveProduct, SuccessSaveCategories } from "../../Redux/actions/actions";
+import Loading from "../Loading/Loading";
+import { SearchOutlined } from "@ant-design/icons";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -19,7 +22,8 @@ function Main(props) {
   const [searchResultProducts, setSearchResultProducts] = useState([]);
   const productService = new ProductService();
   const [sortingType, setSortingTpye] = useState("sirala");
-
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   useEffect(() => {
     setCategories(props.categories);
   }, [props.categories]);
@@ -30,18 +34,21 @@ function Main(props) {
 
   //get Products
   useEffect(async () => {
+    setLoading(true)
     const productArray = [];
     const productValue = await productService.getAllProducts();
     productValue.value.forEach((value) => {
       const product = new Product({ ...value });
       productArray.push(product);
     });
+    dispatch(FinishSaveCategories())
 
     setProducts(productArray);
+    setLoading(false)
   }, []);
 
   //getProducts image
-  useEffect(() => {});
+  useEffect(() => { });
 
   const onHandleChangeSearchText = (e) => {
     setSearchText(e.target.value);
@@ -70,24 +77,25 @@ function Main(props) {
 
 
   const sortingArtanFiyat = () => {
-    return products.sort((a,b) => {
-      return b.price-a.price;
+    return products.sort((a, b) => {
+      return b.price - a.price;
     })
 
   }
   const sortingAzalanFiyat = () => {
-    return products.sort((a,b) => {
-      return a.price-b.price;
+    return products.sort((a, b) => {
+      return a.price - b.price;
     })
   }
   useEffect(() => {
-    if(sortingType === 'artanFiyat') {
+    if (sortingType === 'artanFiyat') {
       sortingArtanFiyat();
     }
-    else if(sortingType === 'azalanFiyat'){
+    else if (sortingType === 'azalanFiyat') {
       sortingAzalanFiyat();
     }
-  },[sortingType])
+  }, [sortingType])
+
 
   return (
     <>
@@ -97,40 +105,43 @@ function Main(props) {
         <div className="component-top">
           <h2>bazariyya.com</h2>
           <div className="searchbar-area">
-            <Sorting handle = {handleChange} />
-            <Search
+            <Sorting handle={handleChange} />
+            <Input
+              prefix = {<SearchOutlined />}
               placeholder="İlanlar arasında arama yapın. Ör.: Yeşil Dana"
               value={searchText}
               onChange={onHandleChangeSearchText}
-              enterButton
             />
           </div>
         </div>
         <div className="component-section">
-          {searchText.length > 0 ? (
-            searchResultProducts.length > 0 ? (
-              searchResultProducts.map((product) => (
-                <AdvertCard key={product.id} product={product} />
-              ))
-            ) : (
-              <div className="not-found-product-search-result">
-                <div className="search-result-area">
-                  <Alert
-                    type="warning"
-                    message="Böyle bir ürün şuan bulunamadı"
-                  ></Alert>
-                  <Divider plain>Aradığın ürünü bulamadıysan</Divider>
-                  <Link className="textDecorationNone" to="/new-advert">
-                    <Button type="primary">Kendi ilanını oluştur</Button>
-                  </Link>
-                </div>
-              </div>
-            )
-          ) : (
-            products.map((product) => (
-              <AdvertCard key={product.id} product={product} />
-            ))
-          )}
+          {
+            loading ? <Loading /> :
+              searchText.length > 0 ? (
+                searchResultProducts.length > 0 ? (
+                  searchResultProducts.map((product) => (
+                    <AdvertCard key={product.id} product={product} />
+                  ))
+                ) : (
+                  <div className="not-found-product-search-result">
+                    <div className="search-result-area">
+                      <Alert
+                        type="warning"
+                        message="Böyle bir ürün şuan bulunamadı"
+                      ></Alert>
+                      <Divider plain>Aradığın ürünü bulamadıysan</Divider>
+                      <Link className="textDecorationNone" to="/new-advert">
+                        <Button type="primary">Kendi ilanını oluştur</Button>
+                      </Link>
+                    </div>
+                  </div>
+                )
+              ) : (
+                products.map((product) => (
+                  <AdvertCard key={product.id} product={product} />
+                ))
+              )
+          }
         </div>
       </div>
     </>

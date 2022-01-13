@@ -1,16 +1,17 @@
 import { Alert, Menu } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
+import { MenuOutlined,LoadingOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import "../../Stylesheet/Sidebar.css";
 import { Drawer } from "antd";
 import HamburgerMenuSVG from "../../assets/img/hamburger-menu.png";
-import { Collapse } from 'antd';
+import { Collapse, Spin } from 'antd';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllSubCategories } from './../../Service/CategoryService';
 import { FailedSaveSubCategories, StartSaveSubCategories } from "../../Redux/actions/actions";
-import { SuccessSaveSubCategories } from './../../Redux/actions/actions';
+import { SuccessSaveSubCategories, FinishSaveSubCategories } from './../../Redux/actions/actions';
 import { SubCategory } from './../../Entities/Subcategory';
 import { CategoryService } from "../../Service/CategoryService";
+import Loading from "../Loading/Loading";
 
 const { SubMenu } = Menu;
 const { Panel } = Collapse;
@@ -24,6 +25,8 @@ const Sidebar = ({categories}) => {
   const dispatch = useDispatch();
   const [subCategories,setSubCategories] = useState([]);
   const categoryService = new CategoryService();
+  const subCategorySelector = useSelector(state => state.subCategories)
+
   
 
   useEffect(() => {
@@ -51,6 +54,8 @@ const Sidebar = ({categories}) => {
       }).finally(() => {
         dispatch(SuccessSaveSubCategories(subCategoryArray))
       })
+      dispatch(FinishSaveSubCategories())
+
     })
   },[openKeys])
 
@@ -71,6 +76,9 @@ const Sidebar = ({categories}) => {
   const openSidebar = () => {
     setSidebarVisible(true);
   };
+
+  
+
 
   const MenuComponent = () => {
     return (
@@ -93,7 +101,7 @@ const Sidebar = ({categories}) => {
             >
               
               {
-                subCategories?.filter(sub => sub.categoryId === category.id).map(subCategory => (
+                subCategorySelector.loading ? <Loading /> : subCategories?.filter(sub => sub.categoryId === category.id).map(subCategory => (
                   <Menu.Item key={subCategory.id}>{subCategory.name}</Menu.Item>
                 ))
               }
