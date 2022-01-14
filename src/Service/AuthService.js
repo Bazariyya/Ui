@@ -1,22 +1,24 @@
 
+import { LOGIN_ENDPOINT, REGISTER_ENDPOINT } from './Endpoints';
 import {MainService} from './MainService'
 
 
 export class AuthService extends MainService{
-    registerEvent = (user) => {
+    registerEvent = async(user) => {
         const {firstName,lastName,email,password} = user;
 
-        return this.postRequest('ENDPOINT',{
-            firstName,
-            lastName,
+        const {data} = await this.postRequest(REGISTER_ENDPOINT,{
+            name:firstName,
+            surname:lastName,
             email,
-            password
+            password,
         })
 
+        return data;
+
     }
-    loginEvent = (user) => {
-        const {email,password} = user;
-        return this.postRequest('ENDPOINT',{
+    loginEvent = (email,password) => {
+        return this.postRequest(LOGIN_ENDPOINT,{
             email,
             password
         })

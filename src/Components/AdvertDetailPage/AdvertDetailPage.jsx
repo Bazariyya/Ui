@@ -5,6 +5,7 @@ import { RightOutlined, LeftOutlined, BookOutlined, MailOutlined, MoneyCollectOu
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { ProductService } from "../../Service/ProductService";
 import { Product } from '../../Entities/Product'
+import { useSelector } from "react-redux";
 
 function AdvertDetailPage() {
   const [slideCount, setSlideCount] = useState(0);
@@ -12,6 +13,7 @@ function AdvertDetailPage() {
   const [product, setProduct] = useState(null);
   const productService = new ProductService();
   const navigate = useNavigate();
+  const userSelector = useSelector(state => state.user);
 
 
 
@@ -59,6 +61,26 @@ function AdvertDetailPage() {
       console.log(err)
     })
   }, [])
+
+
+
+  const onTeklifHandle = () => {
+    if(userSelector.isLoggedIn === false) {
+      navigate('/login',{state:{notLoggedIn:true,message:"Teklif verebilmek için giriş yapın"}})
+    }
+    else{
+
+    }
+  }
+
+  const onSaveHandle = () => {
+    if(userSelector.isLoggedIn === false) {
+      navigate('/login',{state:{notLoggedIn:true,message:"İlanı kayıt edebilmek için giriş yapın"}})
+    }
+    else{
+      
+    }
+  }
 
   return (
     <div className="advert-detail-page-component">
@@ -116,6 +138,7 @@ function AdvertDetailPage() {
                 </div>
               ))}
             </div>
+            <br />
             <div>
               <Alert
                 type="info"
@@ -129,13 +152,13 @@ function AdvertDetailPage() {
               <h2 className="product-price-text">Fiyat: {product?.price}₺</h2>
               <div className="advert-actions">
                 <div>
-                  <Button icon={<MoneyCollectOutlined />} type="primary" className="teklifButton">
+                  <Button icon={<MoneyCollectOutlined />} onClick={onTeklifHandle} type="primary" className="teklifButton">
                     Teklif Yap
                   </Button>
                 </div>
                 <Divider type="vertical" />
                 <div>
-                  <Button icon={<BookOutlined />}>Kaydet</Button>
+                  <Button icon={<BookOutlined />} onClick={onSaveHandle}>Kaydet</Button>
                 </div>
               </div>
             </div>

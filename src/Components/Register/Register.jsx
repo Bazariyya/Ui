@@ -25,12 +25,17 @@ function Register({ service }) {
 
     const user = new User();
     user.allProperties(firstName, lastName, email, password);
-    service.registerEvent(user);
-
-    setTimeout(() => {
-      setButtonLoading(false);
-      navigate("/login", { state: {isNew:true} });
-    }, 2500);
+    service.registerEvent(user).then(res => {
+        setTimeout(() => {
+          setButtonLoading(false);
+          navigate("/login", { state: {isNew:true} });
+        }, 2500);  
+    }).catch(err => {
+      message.error('Bir hata oluştu.');
+    }).finally(() => {
+      setButtonLoading(false)
+    })
+    
   };
 
 

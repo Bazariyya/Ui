@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../Stylesheet/Navbar.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getScreenWidthAndHeight } from "../../Other/ResponsiveControl";
 import { Button, Drawer } from "antd";
 import HamburgerMenu from "../../assets/img/hamburger-menu.png";
@@ -13,7 +13,8 @@ function Navbar() {
   const [menuVisible, setMenuVisible] = useState(false);
   const location = useLocation();
   const responsive = useSelector((state) => state.responsive);
-
+  const userSelector = useSelector((state) => state.user);
+  const navigate = useNavigate();
   useEffect(() => {
     setIsResponsive(responsive);
   }, [responsive]);
@@ -39,22 +40,41 @@ function Navbar() {
   }
 
   useEffect(() => {
-    ResponsiveMenu()
-  }, [])
+    ResponsiveMenu();
+  }, []);
+
+  const NewAdvertHandler = () => {
+    if (userSelector.isLoggedIn === false) {
+      navigate("/login", {
+        state: {
+          notLoggedIn: true,
+          message: "Yeni ilan oluşturabilmek için giriş yapın.",
+        },
+      });
+    } else {
+      navigate("/new-advert");
+    }
+  };
 
   return (
     <div className="topnav" id="myTopnav">
       <div className="left">
-        <Link to="/login">Oturum Aç</Link>
-        <Link className="active" to="/register">Kayıt Ol</Link>
+        {userSelector.isLoggedIn ? (
+          <h5 className="loggedInEmailHeader">{userSelector.data.email}</h5>
+        ) : (
+          <div>
+            <Link to="/login">Oturum Aç</Link>
+            <Link className="active" to="/register">
+              Kayıt Ol
+            </Link>
+          </div>
+        )}
       </div>
 
       <div className="right">
-        <Link className="textDecorationNone" to="/new-advert">
-          <Button type="primary">
-            Yeni İlan Oluştur
-          </Button>
-        </Link>
+        <Button onClick={NewAdvertHandler} type="primary">
+          Yeni İlan Oluştur
+        </Button>
       </div>
       <a className="icon" onClick={ResponsiveMenu}>
         <i className="fa fa-bars"></i>

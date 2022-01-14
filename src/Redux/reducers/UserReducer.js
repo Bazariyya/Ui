@@ -1,24 +1,25 @@
-
-import { LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS } from '../actions/actionTypes';
-import { initialState } from './initalState';
+import {
+  LOGIN_FAILED,
+  LOGIN_START,
+  LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
+} from "../actions/actionTypes";
+import { initialState } from "./initalState";
 // Redux User Reducer
-export const UserReducer = (state = initialState.user,action) => {
-    switch(action.type) {
-        case LOGIN_SUCCESS:
-            state.data = action.payload;
-            state.loading = false;
-            state.isLoggedIn = true;
-            state.errorMessage = ''
-            return state;
-        case LOGIN_START:
-            state.loading = true;
-            return state;
-        case LOGIN_FAILED:
-            state.loading = false;
-            state.isLoggedIn = false;
-            state.errorMessage = action.payload;
-            return state;
-        default:
-            return state;
-    }
-}
+export const UserReducer = (state = initialState.user, action) => {
+  switch (action.type) {
+    case LOGIN_SUCCESS:
+      state.data = action.payload.user;
+      state.token = action.payload.token;
+      state.isLoggedIn = true;
+      return state;
+
+    case LOGOUT_SUCCESS:
+      state.token = null;
+      state.isLoggedIn = false;
+      return state;
+
+    default:
+      return state;
+  }
+};

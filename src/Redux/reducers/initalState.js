@@ -1,8 +1,7 @@
 export const initialState = {
     user:{
         data:null,
-        loading:false,
-        errorMessage:'',
+        token:null,
         isLoggedIn:false
     },
     route:'/',

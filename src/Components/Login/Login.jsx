@@ -6,26 +6,48 @@ import DisabledButton from "../MiniComponents/DisabledButton";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {User} from '../../Entities/User'
 import LogoAndName from "../LogoAndName/LogoAndName";
+import { useDispatch } from "react-redux";
+import { LoginSuccess } from "../../Redux/actions/actions";
+import { UserService } from "../../Service/UserService";
 function Login({ service }) {
   const antIcon = (
     <LoadingOutlined color="light" style={{ fontSize: 24 }} spin />
   );
   const [buttonLoading, setButtonLoading] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const userService = new UserService();
   const handleSendRegisterRequest = (values) => {
     setButtonLoading(true);
 
     const {email,password} = values;
-    const user = new User();
-    user.twoParameter(email,password);
-    service.loginEvent(user);
+    service.loginEvent(email,password).then(res => {
+      const {data} = res;
+      if(data.value[0] === "I"){
+        message.error('E-Posta veya şifre hatalı.');
+      }
+      else if(data.value[0] === "C"){
+        message.error('Bu e-posta adresine ait hesap bulunamadı.')
+      }
+      else{
+        message.success("Oturum açıldı.")
+        userService.getUser(email).then(res =>  {
+          console.log(res.value)
+          const user = new User({...res.value});
+          dispatch(LoginSuccess(user,data.value));
+          navigate('/')
 
+        }).catch(err => {
+          message.error('Kullanıcı bilgileri alınırken bir hata oluştu')
+        })
+      }
+    }).catch(err => {
+      message.error('Bir hata oluştu')
+    }).finally(() => {
+      setButtonLoading(false)
+    })
 
-    setTimeout(() => {
-      setButtonLoading(false);
-      message.success("Oturum Açıldı");
-    }, 2500);
   };
   return (
     <div className="login-component">
@@ -41,7 +63,7 @@ function Login({ service }) {
               message="Hesabınız oluşturuldu.Şimdi giriş yapın."
               type="success"
             />
-          ) : null}
+          ): location.state?.notLoggedIn === true ? <Alert showIcon message={location.state?.message} type="error"/> : null}
           {
             location.state?.sendLink === true ? (
               <Alert showIcon message="Şifre sıfırlama linki gönderildi." type="success" />

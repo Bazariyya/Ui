@@ -24,6 +24,8 @@ function Main(props) {
   const [sortingType, setSortingTpye] = useState("sirala");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  const userSelector = useSelector(state => state.user);
   useEffect(() => {
     setCategories(props.categories);
   }, [props.categories]);
@@ -32,6 +34,7 @@ function Main(props) {
     setSortingTpye(value)
   }
 
+  console.log(userSelector)
   //get Products
   useEffect(async () => {
     setLoading(true)

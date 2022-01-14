@@ -25,7 +25,12 @@
     font-size: 13px;
   }
   
-  
+  .loggedInEmailHeader{
+    color: white;
+    padding-left: 20px;
+    font-size: 16px;
+    padding-top: 7px;
+  }
   /* Add an active class to highlight the current page */
   .topnav a.active {
     background-color: #C65431;
