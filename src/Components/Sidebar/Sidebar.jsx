@@ -1,4 +1,4 @@
-import { Alert, Menu } from "antd";
+import { Alert, Button, Menu } from "antd";
 import { MenuOutlined,LoadingOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import "../../Stylesheet/Sidebar.css";
@@ -7,11 +7,13 @@ import HamburgerMenuSVG from "../../assets/img/hamburger-menu.png";
 import { Collapse, Spin } from 'antd';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllSubCategories } from './../../Service/CategoryService';
-import { FailedSaveSubCategories, StartSaveSubCategories } from "../../Redux/actions/actions";
+import { FailedSaveSubCategories, LogoutSuccess, StartSaveSubCategories } from "../../Redux/actions/actions";
 import { SuccessSaveSubCategories, FinishSaveSubCategories } from './../../Redux/actions/actions';
 import { SubCategory } from './../../Entities/Subcategory';
 import { CategoryService } from "../../Service/CategoryService";
 import Loading from "../Loading/Loading";
+import NormalMenu from "../Navbar/NormalMenu";
+import { useNavigate } from "react-router-dom";
 
 const { SubMenu } = Menu;
 const { Panel } = Collapse;
@@ -26,8 +28,8 @@ const Sidebar = ({categories}) => {
   const [subCategories,setSubCategories] = useState([]);
   const categoryService = new CategoryService();
   const subCategorySelector = useSelector(state => state.subCategories)
-
-  
+  const userSelector = useSelector(state => state.user)
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsResponsive(responsive);
@@ -77,6 +79,11 @@ const Sidebar = ({categories}) => {
     setSidebarVisible(true);
   };
 
+
+  const onLogoutHandler = () => {
+    dispatch(LogoutSuccess())
+    navigate('/login',{state:{isLogout:true,message:'Oturum sonlandırıldı'}})
+  }
   
 
 
@@ -108,6 +115,11 @@ const Sidebar = ({categories}) => {
             </SubMenu>
           ))
         }
+        {
+          userSelector.isLoggedIn ? <div className="logout-button-area">
+          <Button onClick={onLogoutHandler} className="logout-button">Oturumu Sonlandır</Button>
+        </div> : null
+        }
       </Menu>
     );
   };
@@ -129,6 +141,7 @@ const Sidebar = ({categories}) => {
           onClose={closeSidebar}
         >
           <MenuComponent />
+          <NormalMenu />
         </Drawer>
       </div>
     );
@@ -137,6 +150,7 @@ const Sidebar = ({categories}) => {
   return (
     <div className="sidebar-component">
       {isResponsive === true ? <ResponsiveSidebar /> : <MenuComponent />}
+      
     </div>
   );
 };

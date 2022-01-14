@@ -39,10 +39,6 @@ function Navbar() {
     }
   }
 
-  useEffect(() => {
-    ResponsiveMenu();
-  }, []);
-
   const NewAdvertHandler = () => {
     if (userSelector.isLoggedIn === false) {
       navigate("/login", {
@@ -63,10 +59,7 @@ function Navbar() {
           <h5 className="loggedInEmailHeader">{userSelector.data.email}</h5>
         ) : (
           <div>
-            <Link to="/login">Oturum Aç</Link>
-            <Link className="active" to="/register">
-              Kayıt Ol
-            </Link>
+            <NormalMenu />
           </div>
         )}
       </div>
@@ -76,9 +69,6 @@ function Navbar() {
           Yeni İlan Oluştur
         </Button>
       </div>
-      <a className="icon" onClick={ResponsiveMenu}>
-        <i className="fa fa-bars"></i>
-      </a>
     </div>
   );
 }

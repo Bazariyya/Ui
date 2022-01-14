@@ -101,7 +101,7 @@ function Main(props) {
 
 
   return (
-    <>
+    <div style={{position:'absolute',top:0,left:0,width:'100%',height:'90%'}}>
       <Navbar />
       <Sidebar categories={categories} />
       <div className="main-component">
@@ -147,7 +147,7 @@ function Main(props) {
           }
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -63,7 +63,7 @@ function Login({ service }) {
               message="Hesabınız oluşturuldu.Şimdi giriş yapın."
               type="success"
             />
-          ): location.state?.notLoggedIn === true ? <Alert showIcon message={location.state?.message} type="error"/> : null}
+          ): location.state?.notLoggedIn === true ? <Alert showIcon message={location.state?.message} type="error"/> : location.state?.isLogout ? <Alert showIcon message={location.state?.message}/> : null}
           {
             location.state?.sendLink === true ? (
               <Alert showIcon message="Şifre sıfırlama linki gönderildi." type="success" />
