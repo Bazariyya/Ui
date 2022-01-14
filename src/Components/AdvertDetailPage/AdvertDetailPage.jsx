@@ -6,6 +6,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { ProductService } from "../../Service/ProductService";
 import { Product } from '../../Entities/Product'
 import { useSelector } from "react-redux";
+import { BASE_IMAGE_URL } from "../../Service/Endpoints";
 
 function AdvertDetailPage() {
   const [slideCount, setSlideCount] = useState(0);
@@ -14,7 +15,7 @@ function AdvertDetailPage() {
   const productService = new ProductService();
   const navigate = useNavigate();
   const userSelector = useSelector(state => state.user);
-
+  const [activeImage,setActiveImage] = useState("");
 
 
   const onHandleNext = () => {
@@ -44,6 +45,7 @@ function AdvertDetailPage() {
   useEffect(() => {
     productService.getProductImages(productId).then(res => {
       setProductImages(res.value);
+      setActiveImage(`${res.value[0].productId}-${res.value[0].id}.${res.value[0].filecExtension}`);
     }).catch(err => {
       console.log(err);
     })
@@ -62,6 +64,10 @@ function AdvertDetailPage() {
     })
   }, [])
 
+  useEffect(() => {
+    const image = productImages[slideCount];
+    setActiveImage(`${image?.productId}-${image?.id}.${image?.filecExtension}`);
+  },[slideCount])
 
 
   const onTeklifHandle = () => {
@@ -112,7 +118,7 @@ function AdvertDetailPage() {
               </button>
               <img
                 draggable={false}
-                src={productImages[slideCount]}
+                src={`${BASE_IMAGE_URL}/${activeImage}`}
                 className="singleImage"
                 alt="product-image"
               />
@@ -128,8 +134,8 @@ function AdvertDetailPage() {
                 >
                   <img
                     draggable="false"
-                    alt={`${p.productId.toString()}_${p.id.toString()}.${p.filecExtension}`}
-                    src={`${p.productId.toString()}_${p.id.toString()}.${p.filecExtension}`}
+                    alt={`${p.productId}_${p.id}.${p.filecExtension}`}
+                    src={`${BASE_IMAGE_URL}/${p.productId}-${p.id}.${p.filecExtension}`}
                     onClick={() => {
                       onHandleSetSlideCount(index);
                     }}

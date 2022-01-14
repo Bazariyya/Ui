@@ -24,5 +24,7 @@ export const initialState = {
         errorMessage:'',
         selectedSubCategory:null
     },
+
+    productAttributeDefinitions: null
     
 }

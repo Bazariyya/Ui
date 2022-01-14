@@ -5,15 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  FailedSaveCategories,
   ResponsiveModeOff,
   ResponsiveModeOn,
   SetRouteSuccess,
-  StartSaveCategories,
-  SuccessSaveCategories
 } from "./Redux/actions/actions";
 import { getScreenWidthAndHeight } from "./Other/ResponsiveControl";
 import "./Stylesheet/App.css";
+import { ProductService } from "./Service/ProductService";
+import { message } from "antd";
+import {LogoutSuccess} from './Redux/actions/actions'
 function App(props) {
   const route = useSelector((state) => state.route);
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ function App(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const productService = new ProductService();
   
   useEffect(() => {
     localStorage.setItem("route", location.pathname);
@@ -55,6 +56,34 @@ function App(props) {
     const route = localStorage.getItem("route");
     navigate(route);
   }, []);
+
+
+  useEffect(() => {
+      productService.getProductAttributeDefinition().then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+        message.error('Def alınırken hata oluştu')
+      })
+  },[])
+
+
+  useEffect(() => {
+    const expireTime = localStorage.getItem('expireTime');
+    const now = new Date();
+    const route = localStorage.getItem('route');
+
+    if(now < expireTime){
+      message.error('Token süresi bitti.Tekrar giriş yapın')
+      dispatch(LogoutSuccess());
+      navigate('/login')
+    }
+    else if(route !== '/register' || route !== '/login'){
+      navigate(route)
+    }
+
+
+  },[])
 
   return (
     <div className="App">

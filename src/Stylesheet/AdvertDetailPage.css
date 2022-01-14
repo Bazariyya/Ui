@@ -48,7 +48,7 @@
   height: 15%;
   display: flex;
   margin-top: 10px;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .all-images-slide-image{

@@ -33,9 +33,10 @@ function Login({ service }) {
       else{
         message.success("Oturum açıldı.")
         userService.getUser(email).then(res =>  {
-          console.log(res.value)
           const user = new User({...res.value});
           dispatch(LoginSuccess(user,data.value));
+          localStorage.setItem('token',data.value.token)
+          localStorage.setItem('expire',data.value.expireTime)
           navigate('/')
 
         }).catch(err => {
