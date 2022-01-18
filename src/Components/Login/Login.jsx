@@ -31,12 +31,11 @@ function Login({ service }) {
         message.error('Bu e-posta adresine ait hesap bulunamadı.')
       }
       else{
-        message.success("Oturum açıldı.")
         userService.getUser(email).then(res =>  {
           const user = new User({...res.value});
           dispatch(LoginSuccess(user,data.value));
           localStorage.setItem('token',data.value.token)
-          localStorage.setItem('expire',data.value.expireTime)
+          message.success("Oturum açıldı.")
           navigate('/')
 
         }).catch(err => {

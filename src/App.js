@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  LoginSuccess,
   ResponsiveModeOff,
   ResponsiveModeOn,
+  SaveServiceInstance,
   SetRouteSuccess,
 } from "./Redux/actions/actions";
 import { getScreenWidthAndHeight } from "./Other/ResponsiveControl";
@@ -14,6 +16,11 @@ import "./Stylesheet/App.css";
 import { ProductService } from "./Service/ProductService";
 import { message } from "antd";
 import {LogoutSuccess} from './Redux/actions/actions'
+import {AuthService} from './Service/AuthService';
+import { UserService } from "./Service/UserService";
+import { User } from "./Entities/User";
+import Loading from "./Components/Loading/Loading";
+import { CategoryService } from "./Service/CategoryService";
 function App(props) {
   const route = useSelector((state) => state.route);
   const dispatch = useDispatch();
@@ -22,6 +29,13 @@ function App(props) {
   const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const productService = new ProductService();
+  const authService = new AuthService();
+  const userService = new UserService();
+  const categoryService = new CategoryService();
+  const [tokenLoading,setTokenLoading] = useState(true);
+  useEffect(() => {
+    dispatch(SaveServiceInstance(productService,authService,userService,categoryService));
+  },[])
   
   useEffect(() => {
     localStorage.setItem("route", location.pathname);
@@ -69,25 +83,44 @@ function App(props) {
 
 
   useEffect(() => {
-    const expireTime = localStorage.getItem('expireTime');
-    const now = new Date();
     const route = localStorage.getItem('route');
+    const token = localStorage.getItem('token');
 
-    if(now < expireTime){
-      message.error('Token süresi bitti.Tekrar giriş yapın')
+    if(token !== null){
+      
+      authService.tokenControl(token).then(res => {
+        if(res.isSuccess === true) {
+          const {email} = res.value;
+          userService.getUser(email).then(res => {
+            const user = new User({...res.value});
+            dispatch(LoginSuccess(user,token));
+          })
+          
+          navigate(route);
+        }
+        else{
+          localStorage.setItem('route','/')
+          localStorage.removeItem('token');
+        }
+      }).catch(err => {
+        console.log(err)
+      }).finally(() => {
+        setTokenLoading(false);
+      })
+    }
+    else{
       dispatch(LogoutSuccess());
-      navigate('/login')
+      localStorage.setItem('route','/')
+      setTokenLoading(false);
     }
-    else if(route !== '/register' || route !== '/login'){
-      navigate(route)
-    }
-
-
   },[])
+
 
   return (
     <div className="App">
-      <AppRouter />
+      {
+        tokenLoading ? <Loading /> : <AppRouter />
+      }
     </div>
   );
 }

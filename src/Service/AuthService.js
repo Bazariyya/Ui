@@ -1,5 +1,5 @@
 
-import { LOGIN_ENDPOINT, REGISTER_ENDPOINT } from './Endpoints';
+import { LOGIN_ENDPOINT, REGISTER_ENDPOINT, TOKEN_CONTROL_ENDPOINT } from './Endpoints';
 import {MainService} from './MainService'
 
 
@@ -23,5 +23,14 @@ export class AuthService extends MainService{
             password
         })
 
+    }
+
+
+    tokenControl = async(token) => {
+        const {data} = await this.postRequest(TOKEN_CONTROL_ENDPOINT,{
+            token
+        })
+
+        return data;
     }
 }

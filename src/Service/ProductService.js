@@ -5,7 +5,7 @@ import { MainService } from "./MainService";
 export class ProductService extends MainService{
 
 
-    async getAllProducts(){
+    getAllProducts = async() => {
 
         const {data} = await this.getRequest(GET_PRODUCTS_ENDPOINT,{
             token:"Bearer TOKEN"
@@ -15,7 +15,7 @@ export class ProductService extends MainService{
 
     }
 
-    async getProductImages(id){
+    getProductImages = async(id) => {
         const {data} = await this.postRequest(GET_PRODUCT_IMAGES,{
             productId:parseInt(id)
         },{
@@ -25,7 +25,7 @@ export class ProductService extends MainService{
         return data;
     }
 
-    async getSingleProduct(id) {
+    getSingleProduct = async(id) => {
         const {data} = await this.getRequest(`${GET_PRODUCTS_ENDPOINT}/${parseInt(id)}`,{
             token:"Bearer: TOKEN"
         })
@@ -33,7 +33,7 @@ export class ProductService extends MainService{
         return data;
     }
 
-    async getProductAttributeDefinition(){
+    getProductAttributeDefinition = async() => {
         const {data} = await this.postRequest(GET_PRODUCT_ATTRIBUTE_DEFINITION,{
             categoryId: 0
         })

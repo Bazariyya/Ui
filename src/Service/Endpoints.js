@@ -11,3 +11,4 @@ export const GET_PRODUCTS_ENDPOINT = `${BASE_URL}/Product`
 export const GET_PRODUCT_IMAGES = GET_PRODUCTS_ENDPOINT + "/get-product-images";
 export const GET_USER_ENDPOINT = `${BASE_URL}/Account/get-user`;
 export const GET_PRODUCT_ATTRIBUTE_DEFINITION = `${GET_PRODUCTS_ENDPOINT}/get-product-attribute-definitions`;
+export const TOKEN_CONTROL_ENDPOINT = `${BASE_URL}/Account/refresh-token`

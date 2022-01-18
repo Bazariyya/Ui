@@ -20,10 +20,11 @@ function Main(props) {
   const [products, setProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [searchResultProducts, setSearchResultProducts] = useState([]);
-  const productService = new ProductService();
   const [sortingType, setSortingTpye] = useState("sirala");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const service = useSelector(state => state.service);
+  const productService = service[0];
 
   const userSelector = useSelector(state => state.user);
   useEffect(() => {
@@ -34,7 +35,6 @@ function Main(props) {
     setSortingTpye(value)
   }
 
-  console.log(userSelector)
   //get Products
   useEffect(async () => {
     setLoading(true)

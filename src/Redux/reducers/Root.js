@@ -6,6 +6,8 @@ import { NewAdveretReducer } from "./NewAdvertReducer";
 import { CategoryReducer } from "./CategoryReducer";
 import {SubCategoryReducer} from './SubCategoryReducer';
 import {ProductAttributeDefination} from './ProductAttributeReducer'
+import {ServiceReducer} from './ServiceReducer'
+
 export const Root = combineReducers({
     user:UserReducer,
     route:RouteReducer,
@@ -13,5 +15,6 @@ export const Root = combineReducers({
     newadvert:NewAdveretReducer,
     categories:CategoryReducer,
     subCategories:SubCategoryReducer,
-    definition:ProductAttributeDefination
+    definition:ProductAttributeDefination,
+    service:ServiceReducer
 })

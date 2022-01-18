@@ -2,7 +2,6 @@
 
 export class User {
     constructor(...args){
-        console.log(args)
         this.companyId=args[0].companyId;
         this.countryCode = args[0].countryCode;
         this.culture=args[0].culture;

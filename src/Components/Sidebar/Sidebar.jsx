@@ -82,6 +82,7 @@ const Sidebar = ({categories}) => {
 
   const onLogoutHandler = () => {
     dispatch(LogoutSuccess())
+    localStorage.removeItem('token')
     navigate('/login',{state:{isLogout:true,message:'Oturum sonlandırıldı'}})
   }
   
