@@ -13,11 +13,13 @@ import { Category } from '../../Entities/Category';
 import { useDispatch } from 'react-redux';
 import { SuccessSaveCategories } from './../../Redux/actions/actions';
 import { CategoryService } from './../../Service/CategoryService';
+import { useSelector } from "react-redux";
 function AppRouter() {
   const authService = new AuthService();
   const dispatch = useDispatch();
   const categoryService = new CategoryService();
   const [categories,setCategories] = useState([])
+  const userSelector = useSelector(state => state.user);
 
   useEffect(() => {
     const categoryArray = []
@@ -31,6 +33,7 @@ function AppRouter() {
       console.log(err)
     })
   },[])
+
 
   useEffect(() => {
     dispatch(SuccessSaveCategories(categories));

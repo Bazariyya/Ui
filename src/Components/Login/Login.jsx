@@ -1,9 +1,10 @@
 import { Alert, Button, Form, Input, message, Spin } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../Stylesheet/Login.css";
 import { LoadingOutlined } from "@ant-design/icons";
 import DisabledButton from "../MiniComponents/DisabledButton";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import {useSelector} from 'react-redux'
 import {User} from '../../Entities/User'
 import LogoAndName from "../LogoAndName/LogoAndName";
 import { useDispatch } from "react-redux";
@@ -17,6 +18,7 @@ function Login({ service }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const userSelector = useSelector(state => state.user);
   const userService = new UserService();
   const handleSendRegisterRequest = (values) => {
     setButtonLoading(true);
@@ -49,6 +51,14 @@ function Login({ service }) {
     })
 
   };
+
+
+  useEffect(() => {
+    if(userSelector.isLoggedIn === true) {
+      navigate('/')
+    }
+  })
+
   return (
     <div className="login-component">
       <div className="authComponentTop">

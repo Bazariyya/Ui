@@ -1,52 +1,61 @@
 import { Button, Checkbox, Form, Input, message, Spin } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../Stylesheet/Register.css";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import DisabledButton from "../MiniComponents/DisabledButton";
 import { User } from "../../Entities/User";
 import LogoAndName from "../LogoAndName/LogoAndName";
+import { useSelector } from "react-redux";
 function Register({ service }) {
   const navigate = useNavigate();
-  const [checked,setChecked] = useState(false);
+  const [checked, setChecked] = useState(false);
   const antIcon = (
     <LoadingOutlined color="light" style={{ fontSize: 24 }} spin />
   );
   const [buttonLoading, setButtonLoading] = useState(false);
-
+  const userSelector = useSelector((state) => state.user);
   const handleSendRegisterRequest = (values) => {
     setButtonLoading(true);
-    if(checked === false) {
+    if (checked === false) {
       message.error("Devam etmek için sözleşmeyi kabul edin.");
       setButtonLoading(false);
-      return ;
+      return;
     }
     const { firstName, lastName, email, password } = values;
 
     const user = new User();
     user.allProperties(firstName, lastName, email, password);
-    service.registerEvent(user).then(res => {
+    service
+      .registerEvent(user)
+      .then((res) => {
         setTimeout(() => {
           setButtonLoading(false);
-          navigate("/login", { state: {isNew:true} });
-        }, 2500);  
-    }).catch(err => {
-      message.error('Bir hata oluştu.');
-    }).finally(() => {
-      setButtonLoading(false)
-    })
-    
+          navigate("/login", { state: { isNew: true } });
+        }, 2500);
+      })
+      .catch((err) => {
+        message.error("Bir hata oluştu.");
+      })
+      .finally(() => {
+        setButtonLoading(false);
+      });
   };
 
+  useEffect(() => {
+    if (userSelector.isLoggedIn === true) {
+      navigate("/");
+    }
+  });
 
   const onHandleChangeCheckbox = (e) => {
     setChecked(e.target.checked);
-  }
+  };
 
   return (
     <div className="register-component">
       <div className="authComponentTop">
-        <LogoAndName white = {true} />
+        <LogoAndName white={true} />
       </div>
       <div className="register-form">
         <div className="form-top">
@@ -135,7 +144,7 @@ function Register({ service }) {
                 {
                   required: true,
                   message: "Sözleşmeyi kabul etmek zorunludur",
-                }
+                },
               ]}
             >
               <Checkbox onChange={onHandleChangeCheckbox}>

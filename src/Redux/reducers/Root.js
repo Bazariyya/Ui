@@ -7,6 +7,8 @@ import { CategoryReducer } from "./CategoryReducer";
 import {SubCategoryReducer} from './SubCategoryReducer';
 import {ProductAttributeDefination} from './ProductAttributeReducer'
 import {ServiceReducer} from './ServiceReducer'
+import { ProductReducer } from "./ProductReducer";
+import { productImagesReducer } from "./ProductImagesReducer";
 
 export const Root = combineReducers({
     user:UserReducer,
@@ -16,5 +18,7 @@ export const Root = combineReducers({
     categories:CategoryReducer,
     subCategories:SubCategoryReducer,
     definition:ProductAttributeDefination,
-    service:ServiceReducer
+    service:ServiceReducer,
+    products:ProductReducer,
+    productImages:productImagesReducer
 })

@@ -1,18 +1,21 @@
 import { Divider } from "antd";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { BASE_IMAGE_URL } from "../../Service/Endpoints";
 import "../../Stylesheet/AdvertCard.css";
 
 function AdvertCard({ product }) {
-
+  const productImagesSelector = useSelector(state => state.productImages);
+  const image = productImagesSelector.find(p => p.productId === product.id);
   return (
     <div className="card">
       <div className="product-image-area">
         <Link to={`/advertDetail/${product.id}`}>
           <img
-            src="https://im.haberturk.com/2019/02/07/ver1549525278/2346484_810x458.jpg"
+            src={`${BASE_IMAGE_URL}/${image?.productId}-${image?.id}.${image?.filecExtension}`}
             className="product-image"
-            alt="Denim Jeans"
+            alt="Ürün Resmi"
           />
         </Link>
 

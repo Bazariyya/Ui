@@ -8,6 +8,8 @@ import {
   LoginSuccess,
   ResponsiveModeOff,
   ResponsiveModeOn,
+  SaveProduct,
+  SaveProductImages,
   SaveServiceInstance,
   SetRouteSuccess,
 } from "./Redux/actions/actions";
@@ -21,6 +23,7 @@ import { UserService } from "./Service/UserService";
 import { User } from "./Entities/User";
 import Loading from "./Components/Loading/Loading";
 import { CategoryService } from "./Service/CategoryService";
+import { Product } from "./Entities/Product";
 function App(props) {
   const route = useSelector((state) => state.route);
   const dispatch = useDispatch();
@@ -33,6 +36,7 @@ function App(props) {
   const userService = new UserService();
   const categoryService = new CategoryService();
   const [tokenLoading,setTokenLoading] = useState(true);
+  const [products,setProducts] = useState([]);
   useEffect(() => {
     dispatch(SaveServiceInstance(productService,authService,userService,categoryService));
   },[])
@@ -72,14 +76,43 @@ function App(props) {
   }, []);
 
 
+  // useEffect(() => {
+  //     productService.getProductAttributeDefinition().then(res => {
+  //       console.log(res)
+  //     }).catch(err => {
+  //       console.log(err)
+  //       message.error('Def alınırken hata oluştu')
+  //     })
+  // },[])
+
+  //get Products
+  useEffect(async () => {
+    const productArray = [];
+    const productValue = await productService.getAllProducts();
+    productValue.value.forEach((value) => {
+      const product = new Product({ ...value });
+      productArray.push(product);
+      
+    });
+    dispatch(SaveProduct(productArray));
+    setProducts(productArray)
+  }, []);
+
   useEffect(() => {
-      productService.getProductAttributeDefinition().then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-        message.error('Def alınırken hata oluştu')
+    const images = [];
+    products.forEach(p => {
+      productService.getProductImages(p.id).then(res => {
+        if(res.value.length > 0) {
+          res.value.forEach(r => {
+            images.push(r)
+          })
+        }
       })
-  },[])
+    })
+    console.log(images)
+    dispatch(SaveProductImages(images));
+  },[products])
+
 
 
   useEffect(() => {

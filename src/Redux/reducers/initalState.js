@@ -6,6 +6,7 @@ export const initialState = {
     },
     route:'/',
     responsiveMode:false,
+    products: [],
     NewAdvert: {
         category:null,
         subCategory:null,
@@ -25,7 +26,7 @@ export const initialState = {
         selectedSubCategory:null
     },
     productAttributeDefinitions: null,
-    services: [
-    ]
+    services: [],
+    productImages:[]
     
 }

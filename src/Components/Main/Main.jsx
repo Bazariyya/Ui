@@ -21,10 +21,9 @@ function Main(props) {
   const [searchText, setSearchText] = useState("");
   const [searchResultProducts, setSearchResultProducts] = useState([]);
   const [sortingType, setSortingTpye] = useState("sirala");
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  const service = useSelector(state => state.service);
-  const productService = service[0];
+  const [loading, setLoading] = useState(true);
+  const productSelector = useSelector(state => state.products);
+
 
   const userSelector = useSelector(state => state.user);
   useEffect(() => {
@@ -35,28 +34,15 @@ function Main(props) {
     setSortingTpye(value)
   }
 
-  //get Products
-  useEffect(async () => {
-    setLoading(true)
-    const productArray = [];
-    const productValue = await productService.getAllProducts();
-    productValue.value.forEach((value) => {
-      const product = new Product({ ...value });
-      productArray.push(product);
-    });
-    dispatch(FinishSaveCategories())
-
-    setProducts(productArray);
+  useEffect(() => {
+    setProducts(productSelector)
     setLoading(false)
-  }, []);
 
-  //getProducts image
-  useEffect(() => { });
-
+  })
+  
   const onHandleChangeSearchText = (e) => {
     setSearchText(e.target.value);
   };
-
   useEffect(() => {
     if (searchText.length > 0) {
       setSearchResultProducts(
@@ -67,16 +53,12 @@ function Main(props) {
             .includes(searchText.trim().toLowerCase())
         )
       );
-      console.log(
-        products.filter((product) =>
-          product.name.toLowerCase().includes(searchText.toLowerCase())
-        )
-      );
-      console.log(searchText);
     } else {
       setSearchResultProducts([]);
     }
   }, [searchText]);
+
+
 
 
   const sortingArtanFiyat = () => {
