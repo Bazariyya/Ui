@@ -114,7 +114,7 @@ function Main(props) {
                         type="warning"
                         message="Böyle bir ürün şuan bulunamadı"
                       ></Alert>
-                      <Divider plain>Aradığın ürünü bulamadıysan</Divider>
+                      <Divider>Aradığın ürünü bulamadıysan</Divider>
                       <Link className="textDecorationNone" to="/new-advert">
                         <Button type="primary">Kendi ilanını oluştur</Button>
                       </Link>

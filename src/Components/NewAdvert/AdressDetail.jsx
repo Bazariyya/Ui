@@ -6,10 +6,7 @@ const {TextArea} = Input;
 
 const {Option} =Select ;
 function AdressDetail() {
-
     const adressService = new AdressService();
-
-
     const [city,setCity] = useState([]);
     const [selectedCity,setSelectedCity] = useState(null);
     const [district,setDistrict] = useState([]);
@@ -23,6 +20,7 @@ function AdressDetail() {
             console.log(err)
         })
     },[])
+
 
     useEffect(() => {
         if(selectedCity !== null){
@@ -41,8 +39,8 @@ function AdressDetail() {
     
 
   return <div>
-      <Form.Item label = "İl" name = "city" required>
-        <Select defaultValue={'İl Seçiniz'} onChange={onHandleChangeCity}>
+      <Form.Item label = "İl" name = "city" required rules={[{required:true,message:'İl seçilmedi.'}]}>
+        <Select placeholder = "İl Seçiniz" onChange={onHandleChangeCity}>
             {
                 city.map(c => (
                     <Option key = {c.id} value={c.id}>{c.name}</Option>
@@ -50,8 +48,8 @@ function AdressDetail() {
             }
         </Select>
       </Form.Item>
-      <Form.Item label = "İlçe" name = "district" required>
-        <Select defaultValue={'İlçe Seçiniz'}>
+      <Form.Item label = "İlçe" name = "district" required rules={[{required:true,message:'İlçe seçilmedi.'}]}>
+        <Select placeholder = "İl Seçiniz">
             {
                 district?.map(d => (
                     <Option key = {d.id} value = {d.id}>{d.name}</Option>

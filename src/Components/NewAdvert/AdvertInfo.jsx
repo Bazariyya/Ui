@@ -17,14 +17,14 @@ function AdvertInfo() {
           <Input type={'number'} />
       </Form.Item>
       <Form.Item label = "Yaş" name='age' required rules={[{required:true,message:"Yaş bilgisi zorunludur."}]}>
-          <Select defaultValue={"Seçin"}>
+          <Select placeholder={"Seçin"}>
               <Option value = "1">1</Option>
               <Option value = "2">2</Option>
 
           </Select>
       </Form.Item>
-      <Form.Item label = "Toplu Satış" name='bulksale' required >
-          <Select defaultValue={"Seçiniz"}>
+      <Form.Item label = "Toplu Satış" name='bulksale' required rules={[{required:true,message:"Toplu satış bilgisi zorunludur."}]} >
+          <Select placeholder={"Seçiniz"}>
               <Option value = "evet">Evet</Option>
               <Option value = "hayir">Hayır</Option>
 
@@ -34,8 +34,8 @@ function AdvertInfo() {
           <Input type={'number'} />
       </Form.Item>
       
-      <Form.Item label = "Cinsi" name='type' required >
-          <Select defaultValue={"Cins 1"}>
+      <Form.Item label = "Cinsi" name='type' required  rules={[{required:true,message:"İlan cinsi belirtmek zorunludur."}]}>
+          <Select placeholder={"Cins 1"}>
               <Option value = "cins1">Cins 1</Option>
               <Option value = "cins2">Cins 2</Option>
           </Select>

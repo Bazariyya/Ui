@@ -4,10 +4,11 @@ import AdvertInfo from "./AdvertInfo";
 import AdvertUploadImages from "./AdvertUploadImages";
 import AdressDetail from "./AdressDetail";
 import React from "react";
+import SelectCategory from "./SelectCategory";
 const { Panel } = Collapse;
 const { Step } = Steps;
 function NewAdvert() {
-  
+
 
   const [current, setCurrent] = React.useState(0);
   const next = () => {
@@ -18,7 +19,7 @@ function NewAdvert() {
     setCurrent(current - 1);
   };
 
-  function callback(key) {}
+  function callback(key) { }
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -43,15 +44,22 @@ function NewAdvert() {
       <Collapse defaultActiveKey={["1"]} onChange={callback}>
         <Panel
           className="collapse-panel"
-          header="İlan Hakkında Bilgiler"
+          header="İlan Kategorisi Seçin"
           key="1"
+        >
+          <SelectCategory />
+        </Panel>
+        <Panel
+          className="collapse-panel"
+          header="İlan Hakkında Bilgiler"
+          key="2"
         >
           <AdvertInfo />
         </Panel>
         <Panel
           className="collapse-panel"
           header="Satıcı Hakkında Bilgiler"
-          key="2"
+          key="3"
         >
           <AdressDetail />
         </Panel>
@@ -97,7 +105,7 @@ function NewAdvert() {
               <Step key={item.title} title={item.title} />
             ))}
           </Steps>
-          <div className="steps-content" style={{padding:'45px',display:'flex',justifyContent:'center',flexDirection:'column'}}>{steps[current].content}</div>
+          <div className="steps-content" style={{ padding: '45px', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>{steps[current].content}</div>
           <div className="steps-action">
             {current === steps.length - 1 && (
               <Button
