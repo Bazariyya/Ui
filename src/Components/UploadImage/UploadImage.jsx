@@ -1,73 +1,82 @@
-import { Upload, Modal, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import {  Upload, Button, message  } from 'antd';
+import {  UploadOutlined  } from '@ant-design/icons';
 import React from 'react'
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => {
-        message.error("Hata oluştu")
-        console.log(error)
-        reject(error)
-    };
-  });
-}
-
+import { UPLOAD_IMAGE } from '../../Service/Endpoints';
 class UploadImage extends React.Component {
   state = {
-    previewVisible: false,
-    previewImage: '',
-    previewTitle: '',
     fileList: [],
+    uploading: false,
   };
 
-  handleCancel = () => this.setState({ previewVisible: false });
-
-  handlePreview = async file => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-
-    this.setState({
-      previewImage: file.url || file.preview,
-      previewVisible: true,
-      previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+  handleUpload = () => {
+    const { fileList } = this.state;
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append('files[]', file);
     });
+    this.setState({
+      uploading: true,
+    });
+    // You can use any AJAX library you like
+    fetch(`https://bazariyya.com${UPLOAD_IMAGE}productId=${2}&isActive=true&isShowCase=true`, {
+      method: 'POST',
+      body: formData,
+    })
+      .then(res => res.json())
+      .then(() => {
+        this.setState({
+          fileList: [],
+        });
+        message.success('Resimler Yüklendi.');
+      })
+      .catch(() => {
+        message.error('Resimler Yüklenemedi.');
+      })
+      .finally(() => {
+        this.setState({
+          uploading: false,
+        });
+      });
   };
-
-  handleChange = ({ fileList }) => this.setState({ fileList });
 
   render() {
-    const { previewVisible, previewImage, fileList, previewTitle } = this.state;
-    const uploadButton = (
-      <div>
-        <PlusOutlined />
-        <div style={{ marginTop: 8 }}>Yükle</div>
-      </div>
-    );
+    const { uploading, fileList } = this.state;
+    const props = {
+      onRemove: file => {
+        this.setState(state => {
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList,
+          };
+        });
+      },
+      beforeUpload: file => {
+        this.setState(state => ({
+          fileList: [...state.fileList, file],
+        }));
+        return false;
+      },
+      fileList,
+    };
+
     return (
       <>
-        <Upload
-          action="ENDPOINT"
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={this.handlePreview}
-          onChange={this.handleChange}
-        >
-          {fileList.length >= 20 ? null : uploadButton}
+        <Upload {...props}>
+          <Button icon={<UploadOutlined />}>Resim Seç</Button>
         </Upload>
-        <Modal
-          visible={previewVisible}
-          title={previewTitle}
-          footer={null}
-          onCancel={this.handleCancel}
+        <Button
+          type="primary"
+          onClick={this.handleUpload}
+          disabled={fileList.length === 0}
+          loading={uploading}
+          style={{ marginTop: 16 }}
         >
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
+          {uploading ? 'Kaydediliyor' : 'Resimleri Kaydet'}
+        </Button>
       </>
     );
   }
 }
-
 export default UploadImage;

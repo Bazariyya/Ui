@@ -109,7 +109,6 @@ function App(props) {
         }
       })
     })
-    console.log(images)
     dispatch(SaveProductImages(images));
   },[products])
 
