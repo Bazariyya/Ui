@@ -5,7 +5,7 @@ import { ResponsiveReducer } from "./ResponsiveReducer";
 import { NewAdveretReducer } from "./NewAdvertReducer";
 import { CategoryReducer } from "./CategoryReducer";
 import {SubCategoryReducer} from './SubCategoryReducer';
-import {ProductAttributeDefination} from './ProductAttributeReducer'
+import {ProductAttributeDefination} from './ProductAttributeDefReducer'
 import {ServiceReducer} from './ServiceReducer'
 import { ProductReducer } from "./ProductReducer";
 import { productImagesReducer } from "./ProductImagesReducer";

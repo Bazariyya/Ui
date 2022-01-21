@@ -1,0 +1,43 @@
+
+.upload-images-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.preview-image{
+    width: 118px;
+    height: 118px;
+    margin: 10px;
+    border: 1px solid black;
+}
+
+.multi-preview{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .btn {
+    border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }

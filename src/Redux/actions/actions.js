@@ -110,8 +110,9 @@ export const SaveSelectedSubCategory = (subcategory) => ({
 
 
 
-export const SaveProductAttributeDefinations = () => ({
-    type:PRODUCT_ATTIRBUTE_DEFINITIONS
+export const SaveProductAttributeDefinations = (def) => ({
+    type:PRODUCT_ATTIRBUTE_DEFINITIONS,
+    payload:def
 })
 
 export const SaveServiceInstance = (...services) => ({

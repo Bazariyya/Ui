@@ -9,6 +9,7 @@ import {
   ResponsiveModeOff,
   ResponsiveModeOn,
   SaveProduct,
+  SaveProductAttributeDefinations,
   SaveProductImages,
   SaveServiceInstance,
   SetRouteSuccess,
@@ -24,6 +25,7 @@ import { User } from "./Entities/User";
 import Loading from "./Components/Loading/Loading";
 import { CategoryService } from "./Service/CategoryService";
 import { Product } from "./Entities/Product";
+import { DefinitionService } from "./Service/DefinitionService";
 function App(props) {
   const route = useSelector((state) => state.route);
   const dispatch = useDispatch();
@@ -35,10 +37,11 @@ function App(props) {
   const authService = new AuthService();
   const userService = new UserService();
   const categoryService = new CategoryService();
+  const definitionService = new DefinitionService();
   const [tokenLoading,setTokenLoading] = useState(true);
   const [products,setProducts] = useState([]);
   useEffect(() => {
-    dispatch(SaveServiceInstance(productService,authService,userService,categoryService));
+    dispatch(SaveServiceInstance(productService,authService,userService,categoryService,definitionService));
   },[])
   
   useEffect(() => {
@@ -75,15 +78,19 @@ function App(props) {
     navigate(route);
   }, []);
 
+  const definition = useSelector(state => state.definition)
+  useEffect(() => {
+      productService.getProductAttributeDefinition().then(res => {
+        dispatch(SaveProductAttributeDefinations(res.value))
+      }).catch(err => {
+        console.log(err)
+        message.error('Ürün özellik tanımları alınırken hata oluştu')
+      })
+  },[])
 
-  // useEffect(() => {
-  //     productService.getProductAttributeDefinition().then(res => {
-  //       console.log(res)
-  //     }).catch(err => {
-  //       console.log(err)
-  //       message.error('Def alınırken hata oluştu')
-  //     })
-  // },[])
+  useEffect(() => {
+    console.log(definition)
+  },[definition])
 
   //get Products
   useEffect(async () => {

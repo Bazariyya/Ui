@@ -1,15 +1,23 @@
 import "../../Stylesheet/NewAdvert.css";
-import { PageHeader, Collapse, Form, Button, message, Steps } from "antd";
+import {
+  PageHeader,
+  Collapse,
+  Form,
+  Button,
+  message,
+  Steps,
+  Modal,
+} from "antd";
 import AdvertInfo from "./AdvertInfo";
 import AdvertUploadImages from "./AdvertUploadImages";
 import AdressDetail from "./AdressDetail";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SelectCategory from "./SelectCategory";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 const { Panel } = Collapse;
 const { Step } = Steps;
+const { confirm } = Modal;
 function NewAdvert() {
-
-
   const [current, setCurrent] = React.useState(0);
   const next = () => {
     setCurrent(current + 1);
@@ -19,12 +27,14 @@ function NewAdvert() {
     setCurrent(current - 1);
   };
 
-  function callback(key) { }
+  const [stepState, setStepState] = useState(null);
+
+  function callback(key) {}
 
   const onFinish = (values) => {
     console.log("Success:", values);
-    message.success("İlan Kaydedildi.")
-    next()
+    message.success("İlan Kaydedildi.");
+    next();
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -33,44 +43,21 @@ function NewAdvert() {
   };
 
   const Step1 = () => (
-    <Form
-      name="basic"
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-      layout="vertical"
-    >
-      <Collapse defaultActiveKey={["1"]} onChange={callback}>
-        <Panel
-          className="collapse-panel"
-          header="İlan Kategorisi Seçin"
-          key="1"
-        >
-          <SelectCategory />
-        </Panel>
-        <Panel
-          className="collapse-panel"
-          header="İlan Hakkında Bilgiler"
-          key="2"
-        >
-          <AdvertInfo />
-        </Panel>
-        <Panel
-          className="collapse-panel"
-          header="Satıcı Hakkında Bilgiler"
-          key="3"
-        >
-          <AdressDetail />
-        </Panel>
-      </Collapse>
-      <br />
-      <Form.Item>
-        <Button htmlType="submit" type="primary">
-          İlanı Kaydet
-        </Button>
-      </Form.Item>
-    </Form>
+    <Collapse defaultActiveKey={["1","2","3"]} onChange={callback}>
+      <Panel className="collapse-panel" header="İlan Kategorisi Seçin" key="1">
+        <SelectCategory />
+      </Panel>
+      <Panel className="collapse-panel" header="İlan Hakkında Bilgiler" key="2">
+        <AdvertInfo />
+      </Panel>
+      <Panel
+        className="collapse-panel"
+        header="Satıcı Hakkında Bilgiler"
+        key="3"
+      >
+        <AdressDetail />
+      </Panel>
+    </Collapse>
   );
 
   const steps = [
@@ -100,22 +87,43 @@ function NewAdvert() {
           />
         </div>
         <div className="new-advert-center">
-          <Steps current={current}>
-            {steps.map((item) => (
-              <Step key={item.title} title={item.title} />
-            ))}
-          </Steps>
-          <div className="steps-content" style={{ padding: '45px', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>{steps[current].content}</div>
-          <div className="steps-action">
-            {current === steps.length - 1 && (
-              <Button
-                type="primary"
-                onClick={() => message.success("Processing complete!")}
-              >
-                Tamamla
-              </Button>
-            )}
-          </div>
+          <Form
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+            layout="vertical"
+          >
+            <Steps current={current}>
+              {steps.map((item) => (
+                <Step key={item.title} title={item.title} />
+              ))}
+            </Steps>
+            <div
+              className="steps-content"
+              style={{
+                padding: "45px",
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              {steps[current].content}
+            </div>
+            <div className="steps-action">
+              <div className="steps-action">
+                {current > 0 && (
+                  <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
+                    Geri
+                  </Button>
+                )}
+                <Button style={{float:'right'}} htmlType="submit" type="primary">
+                  Devam
+                </Button>
+              </div>
+            </div>
+          </Form>
         </div>
       </div>
     </div>

@@ -15,3 +15,5 @@ export const TOKEN_CONTROL_ENDPOINT = `${BASE_URL}/Account/refresh-token`
 export const GET_CITIES = `${BASE_URL}/Address/get-cityes`;
 export const GET_DISTRICT = `${BASE_URL}/Address/get-districts`;
 export const UPLOAD_IMAGE = `${BASE_URL}/Product/upload-product-image?`
+
+export const DEFINITION_ENDPOINT = `${BASE_URL}/Product/get-product-attribute-values`

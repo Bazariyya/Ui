@@ -40,3 +40,10 @@
     background-color: #D9D7F1;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+.advert-upload-images-component{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

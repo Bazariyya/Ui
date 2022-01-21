@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Cascader, Form } from 'antd';
 import { useSelector } from 'react-redux';
-function SelectCategory() {
+function SelectCategory({initialState}) {
 
     const categoryData = useSelector(state => state.categories.data);
     const categoryService = useSelector(state => state.service)[3]
 
     const [options, setOptions] = React.useState([]);
-
-
 
     useEffect(() => {
         const optionLists = [

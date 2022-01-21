@@ -1,11 +1,40 @@
 import {Form, Input, Select} from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {useSelector} from 'react-redux'
 
 
 const {Option} = Select;
 
 function AdvertInfo() {
+
+
+
+    const definition = useSelector(state => state.definition)
+    const isMassMaleDefinition = definition[1]
+    const ageDefinition = definition[3];
+    
+    const definitionService = useSelector(state => state.service[4])
+
+
+    const [ageOptions,setAgeOptions] = useState([]);
+    const [isMassMaleOptions,setIsMassMaleOption] = useState([])
+    useEffect(() => {
+        definitionService.getDefById(ageDefinition.id).then(res => {
+            setAgeOptions(res.value)
+        }).catch(err => {
+            console.log(err)
+        })
+    },[])
+
+    useEffect(() => {
+        definitionService.getDefById(isMassMaleDefinition.id).then(res => {
+            setIsMassMaleOption(res.value)
+        }).catch(err => {
+            console.log(err);
+        })
+    },[])
+
   return <div className='advert-info-step'>
       <Form.Item label = "Başlık" name={'title'} required rules={[{required:true,message:"İlan başlığı zorunludur."}]}>
           <Input maxLength={100} />
@@ -18,16 +47,20 @@ function AdvertInfo() {
       </Form.Item>
       <Form.Item label = "Yaş" name='age' required rules={[{required:true,message:"Yaş bilgisi zorunludur."}]}>
           <Select placeholder={"Seçin"}>
-              <Option value = "1">1</Option>
-              <Option value = "2">2</Option>
-
+            {
+                ageOptions.map((age,i) => (
+                    <Option key = {i} value = {`${age.productAttributeDefinitionId}_${age.value}`}>{age.value}</Option>
+                ))
+            }
           </Select>
       </Form.Item>
       <Form.Item label = "Toplu Satış" name='bulksale' required rules={[{required:true,message:"Toplu satış bilgisi zorunludur."}]} >
-          <Select placeholder={"Seçiniz"}>
-              <Option value = "evet">Evet</Option>
-              <Option value = "hayir">Hayır</Option>
-
+          <Select  placeholder={"Seçiniz"}>
+              {
+                  isMassMaleOptions.map((mass,i) => (
+                    <Option key = {i} value = {`${mass.productAttributeDefinitionId}-${mass.value}`}>{mass.value}</Option>
+                  ))
+              }
           </Select>
       </Form.Item>
       <Form.Item label = "Tahmini Ağırlık" name='weight' required rules={[{required:true,message:"Ağırlık bilgisi zorunludur."},{min:1,message:'Ağırlık en az 1kg olmalıdır.'}]}>
