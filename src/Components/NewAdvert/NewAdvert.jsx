@@ -14,11 +14,23 @@ import AdressDetail from "./AdressDetail";
 import React, { useEffect, useState } from "react";
 import SelectCategory from "./SelectCategory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 const { Panel } = Collapse;
 const { Step } = Steps;
 const { confirm } = Modal;
 function NewAdvert() {
   const [current, setCurrent] = React.useState(0);
+
+  const [savedProductId,setSavedProductId]= useState(null);
+
+  const service = useSelector(state => state.service);
+  const productService = service[0];
+  const definition = useSelector(state => state.definition)
+
+  const ageDefinition = definition ? definition[3]:null;
+  const descriptionDef = definition ? definition[6]:null;
+  const isMassSale = definition ? definition[1]:null;
+
   const next = () => {
     setCurrent(current + 1);
   };
@@ -33,9 +45,85 @@ function NewAdvert() {
 
   const onFinish = (values) => {
     console.log("Success:", values);
-    message.success("İlan Kaydedildi.");
-    next();
+
+    const {
+      adress,
+      age,
+      bulksale,
+      category,
+      city,
+      description,
+      district,
+      email,
+      nameSurname,
+      phone,
+      price,
+      title,
+      type,
+      weight
+    } = values;
+    console.log(adress)
+    const product = {
+      name: title,
+      categoryId: category[0],
+      price: parseInt(price),
+      externalId: "string",
+      code: "MorDana",
+      barcodes: "string",
+      imagePath: "string",
+      hash: "string",
+      directSupplyId: 0,
+      styleCode: "string",
+      season: "string",
+      colorCode: "kırmızı",
+      sizeDefinition: "string",
+      division: "string",
+      userId: 1,
+      divisionId: 0,
+      subDivision: "string",
+      subDivisionId: 0,
+      isActive: true,
+      address:{
+        cityId:city,
+        districtId:district,
+        addressText:adress,
+        addressName:adress,
+        countryId:2
+      },
+      productAttributes:[
+        {
+          productAttributeDefinitionId:ageDefinition.id,
+          value:age
+        },
+        {
+          productAttributeDefinitionId:isMassSale.id,
+          value:bulksale
+        },{
+          productAttributeDefinitionId:descriptionDef.id,
+          value:description
+        }
+      ]
+
+    }
+
+    productService.addProduct(product).then(res => {
+      message.success("İlan Kaydedildi.");
+      setSavedProductId(res.value);
+      console.log(res);
+     
+    }).catch(err => {
+      message.error("İlan Kaydedilemedi.")
+      console.log(err)
+    })
+
+   
   };
+
+  useEffect(() => {
+    if(savedProductId > 0) {
+      next();
+    }
+  },[savedProductId])
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -51,7 +139,8 @@ function NewAdvert() {
         <AdvertInfo />
       </Panel>
       <Panel
-        className="collapse-panel"
+        className=
+        "collapse-panel"
         header="Satıcı Hakkında Bilgiler"
         key="3"
       >
@@ -67,7 +156,7 @@ function NewAdvert() {
     },
     {
       title: "İlan Görselleri",
-      content: <AdvertUploadImages />,
+      content: <AdvertUploadImages productId = {savedProductId} />,
     },
     {
       title: "Tamamla",

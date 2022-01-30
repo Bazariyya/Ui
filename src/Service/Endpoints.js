@@ -17,3 +17,4 @@ export const GET_DISTRICT = `${BASE_URL}/Address/get-districts`;
 export const UPLOAD_IMAGE = `${BASE_URL}/Product/upload-product-image?`
 
 export const DEFINITION_ENDPOINT = `${BASE_URL}/Product/get-product-attribute-values`
+export const ADD_PRODUCT_ENDPOINT = `${BASE_URL}/Product/add-product`

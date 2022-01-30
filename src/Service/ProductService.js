@@ -1,4 +1,4 @@
-import { GET_PRODUCTS_ENDPOINT, GET_PRODUCT_ATTRIBUTE_DEFINITION, GET_PRODUCT_IMAGES } from "./Endpoints";
+import { ADD_PRODUCT_ENDPOINT, GET_PRODUCTS_ENDPOINT, GET_PRODUCT_ATTRIBUTE_DEFINITION, GET_PRODUCT_IMAGES } from "./Endpoints";
 import { MainService } from "./MainService";
 
 
@@ -37,6 +37,13 @@ export class ProductService extends MainService{
         const {data} = await this.postRequest(GET_PRODUCT_ATTRIBUTE_DEFINITION,{
             categoryId: 0
         })
+
+        return data;
+    }
+
+    addProduct = async(newProduct) => {
+        console.log(newProduct)
+        const {data} = await this.postRequest(ADD_PRODUCT_ENDPOINT, newProduct);
 
         return data;
     }

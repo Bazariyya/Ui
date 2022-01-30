@@ -1,58 +1,60 @@
-import React, { Component } from "react";
-import "../../Stylesheet/UploadImages.css";
-import {Button} from 'antd'
-export default class MultiFileUploadComponent extends Component {
-  filesArray = [];
-  FilesCollection = [];
+import React, { useEffect, useState } from 'react';
+import { Upload,message } from 'antd';
+import ImgCrop from 'antd-img-crop';
 
-  constructor(props) {
-    super(props);
+const UploadImage = ({productId}) => {
+  const [fileList, setFileList] = useState([
+    
+  ]);
 
-    this.state = {
-      file: [null],
-      showCaseImage:null
-    };
-    this.multiImagePreview = this.multiImagePreview.bind(this);
-    this.imagePreview = this.imagePreview.bind(this);
-  }
 
-  multiImagePreview(event) {
-    this.filesArray.push(event.target.files);
-    for (let i = 0; i < this.filesArray[0].length; i++) {
-      this.FilesCollection.push({showCase:false,data:URL.createObjectURL(this.filesArray[0][i])});
-    }
-    this.setState({ file: this.FilesCollection });
-  }
+  const onChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
 
-  imagePreview(event) {
-    event.preventDefault();
-    console.log(this.state.file);
-  }
-
-  onHandleChangeShowCase(image){
-    this.setState({
-      showCase:image
+  const beforeUpload = (file) => {
+    const upload = new Promise(() => {
+      if(file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg') {
+        message.success("Dosya yüklendi.")
+      }
+      else{
+        message.error("Dosya formatı geçersiz.Yükleme başarısız")
+        file = null;
+      }
     })
+    
+    return upload;
   }
 
-  render() {
-    return (
-      <form className="upload-images-form">
-        <div class="upload-btn-wrapper">
-          <Button>Resim Yükle</Button>
-          <input
-            type="file"
-            className="image-upload-input"
-            onChange={this.multiImagePreview}
-            multiple
-          />
-        </div>
-        <div className="multi-preview">
-          {(this.FilesCollection || []).map((res) => (
-            <img onClick={() => {this.onHandleChangeShowCase(res)}} className="preview-image" src={res.data} alt="..." />
-          ))}
-        </div>
-      </form>
-    );
-  }
-}
+  const onPreview = async file => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow.document.write(image.outerHTML);
+  };
+  return (
+    <ImgCrop rotate>
+      <Upload
+        action={`https://bazariyya.com/api/Product/upload-product-image?productId=${productId}&isActive=true`}
+        progress
+        listType="picture-card"
+        fileList={fileList}
+        onChange={onChange}
+        onPreview={onPreview}
+        beforeUpload={beforeUpload}
+      >
+        {fileList.length < 15 && 'Resim Yükle'}
+      </Upload>
+    </ImgCrop>
+  );
+};
+
+export default UploadImage;

@@ -13,9 +13,10 @@ function AdvertInfo() {
     const definition = useSelector(state => state.definition)
     const isMassMaleDefinition = definition[1]
     const ageDefinition = definition[3];
+    const descriptionDefinition = definition[6]
     
     const definitionService = useSelector(state => state.service[4])
-
+    console.log(definition)
 
     const [ageOptions,setAgeOptions] = useState([]);
     const [isMassMaleOptions,setIsMassMaleOption] = useState([])
@@ -49,7 +50,7 @@ function AdvertInfo() {
           <Select placeholder={"Seçin"}>
             {
                 ageOptions.map((age,i) => (
-                    <Option key = {i} value = {`${age.productAttributeDefinitionId}_${age.value}`}>{age.value}</Option>
+                    <Option key = {i} value = {`${age.value}`}>{age.value}</Option>
                 ))
             }
           </Select>
@@ -58,7 +59,7 @@ function AdvertInfo() {
           <Select  placeholder={"Seçiniz"}>
               {
                   isMassMaleOptions.map((mass,i) => (
-                    <Option key = {i} value = {`${mass.productAttributeDefinitionId}-${mass.value}`}>{mass.value}</Option>
+                    <Option key = {i} value = {`${mass.value}`}>{mass.value}</Option>
                   ))
               }
           </Select>
