@@ -57,7 +57,7 @@ function AdressDetail() {
             }
         </Select>
       </Form.Item>
-      <Form.Item label = "Adres Tanımı" name = "adress" required rules={[{required:true,message:'Açık adres tanımlanmak zorunludur.'}]}>
+      <Form.Item label = "Adres Tanımı" name = "adress" required rules={[{required:true,message:'Açık adres tanımlanmak zorunludur.'},{min:15,message:'Adres tanımı minimum 15 karakter olmalıdır.'}]}>
         <TextArea  />
       </Form.Item>
       

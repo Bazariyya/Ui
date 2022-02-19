@@ -13,11 +13,11 @@ import AdvertUploadImages from "./AdvertUploadImages";
 import AdressDetail from "./AdressDetail";
 import React, { useEffect, useState } from "react";
 import SelectCategory from "./SelectCategory";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import NewAdvertLastStep from "./NewAdvertLastStep";
 const { Panel } = Collapse;
 const { Step } = Steps;
-const { confirm } = Modal;
 function NewAdvert() {
   const [current, setCurrent] = React.useState(0);
 
@@ -39,13 +39,13 @@ function NewAdvert() {
     setCurrent(current - 1);
   };
 
-  const [stepState, setStepState] = useState(null);
-
   function callback(key) {}
 
   const onFinish = (values) => {
     console.log("Success:", values);
-
+    if(current === 1)  {
+      next();
+    }
     const {
       adress,
       age,
@@ -62,7 +62,6 @@ function NewAdvert() {
       type,
       weight
     } = values;
-    console.log(adress)
     const product = {
       name: title,
       categoryId: category[0],
@@ -160,7 +159,7 @@ function NewAdvert() {
     },
     {
       title: "Tamamla",
-      content: "Last-content",
+      content: <NewAdvertLastStep productId = {savedProductId} />,
     },
   ];
 
@@ -198,7 +197,7 @@ function NewAdvert() {
                 flexDirection: "column",
               }}
             >
-              {steps[current].content}
+              {steps[current]?.content}
             </div>
             <div className="steps-action">
               <div className="steps-action">
@@ -207,9 +206,13 @@ function NewAdvert() {
                     Geri
                   </Button>
                 )}
-                <Button style={{float:'right'}} htmlType="submit" type="primary">
+                {
+                  current !== 2 ? <Button style={{float:'right'}} htmlType="submit" type="primary">
                   Devam
+                </Button> : <Button style={{float:'right'}}  type="primary">
+                  <Link to={`/advertDetail/${savedProductId}`}>İlanı Görüntüle</Link>
                 </Button>
+                }
               </div>
             </div>
           </Form>

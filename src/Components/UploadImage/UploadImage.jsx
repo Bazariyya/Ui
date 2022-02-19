@@ -12,20 +12,7 @@ const UploadImage = ({productId}) => {
     setFileList(newFileList);
   };
 
-  const beforeUpload = (file) => {
-    const upload = new Promise(() => {
-      if(file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg') {
-        message.success("Dosya yüklendi.")
-      }
-      else{
-        message.error("Dosya formatı geçersiz.Yükleme başarısız")
-        file = null;
-      }
-    })
-    
-    return upload;
-  }
-
+  
   const onPreview = async file => {
     let src = file.url;
     if (!src) {
@@ -49,7 +36,6 @@ const UploadImage = ({productId}) => {
         fileList={fileList}
         onChange={onChange}
         onPreview={onPreview}
-        beforeUpload={beforeUpload}
       >
         {fileList.length < 15 && 'Resim Yükle'}
       </Upload>
